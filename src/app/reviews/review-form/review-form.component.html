@@ -1,0 +1,20 @@
+<h3>Create Review</h3>
+<form [formGroup]="reviewForm" (ngSubmit)="save()">
+  <div class="row">
+    <div class="col">
+      <mat-form-field floatLabel='auto'>
+        <input matInput placeholder="Name" type="text" formControlName="name" required>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-form-field floatLabel='auto'>
+        <input matInput placeholder="Age" type="number" formControlName="age" required>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <button mat-raised-button (click)="cancel()">Cancel</button> &nbsp;
+  <button mat-raised-button color="primary" type="submit">Submit</button>
+</form>

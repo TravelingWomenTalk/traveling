@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+  <a class="navbar-brand" href="#">Top navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a routerLink="/reviews" class="nav-link">Reviews</a>
+      </li>
+      <li class="nav-item active">
+        <a routerLink="/create" class="nav-link">Create</a>
+      </li>
+      <li class="nav-item active">
+        <a routerLink="/about" class="nav-link">About</a>
+      </li>
+      <li class="nav-item active">
+        <a routerLink="/profile" class="nav-link">Profile</a>
+      </li>
+    </ul>
+    <form class="form-inline mt-2 mt-md-0">
+      <ul class="navbar-nav mr-auto">
+        <span *ngIf="auth.user$ | async; then authenticated else guest"></span>
+      </ul>
+    </form>
+  </div>
+</nav>
+
+<ng-template #guest>
+  <li class="nav-item active">
+    <a routerLink="/login" class="nav-link">Login</a>
+  </li>
+  <li class="nav-item active">
+    <a routerLink="/signup" class="nav-link">Signup</a>
+  </li>
+</ng-template>
+
+
+<!-- User logged in -->
+<ng-template #authenticated>
+  <span *ngIf="auth.user$ | async as user">
+    <li class="nav-item active">
+      <a routerLink="/reviews" (click)="auth.signOut()" class="nav-link">Logout</a>
+      <span class="nav-link">Howdy, {{ user.displayName }}</span>
+    </li>
+  </span>
+</ng-template>

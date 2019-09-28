@@ -1,0 +1,22 @@
+<h1>Reviews</h1>
+<div *ngFor="let review of reviews">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>{{review.name}}</mat-card-title>
+      <mat-card-subtitle>User</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content (click)='navigateDetails(review)'>
+      <div>
+        <label>First Name: </label> {{review.name}}
+      </div>
+      <div>
+        <label>Age: </label> {{review.age}}
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>SHARE</button>
+      <button mat-button (click)='editReview(review)'>Edit</button>
+      <button mat-button (click)='deleteReview(review)'>Delete</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
