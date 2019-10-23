@@ -3,6 +3,7 @@ import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { map } from 'rxjs/operators';
 import { Review } from 'src/app/shared/models/review.model';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-list',
@@ -13,7 +14,9 @@ export class ReviewListComponent implements OnInit {
  
   reviews: any;
  
-  constructor(private reviewService: ReviewService, private router: Router) { }
+  constructor(private reviewService: ReviewService,
+    private router: Router,
+    private snackBar: MatSnackBar) { }
  
   ngOnInit() {
     this.getAllReviews();
@@ -41,5 +44,9 @@ export class ReviewListComponent implements OnInit {
  
   deleteReview(review: Review) {
     this.reviewService.delete(review.key);
+    this.snackBar.open('Review deleted', 'dismiss', {
+      duration: 9000,
+      panelClass: ['error-snackbar']
+    });
   }
 }
