@@ -43,7 +43,7 @@ export class ReviewDetailComponent implements OnInit, OnDestroy {
 
 
   deleteReview() {
-    this.reviewService.delete(this.review.key)
+    this.reviewService.delete(this.review.id)
       .catch(err => console.log(err));
 
     this.router.navigate(['/reviews']);

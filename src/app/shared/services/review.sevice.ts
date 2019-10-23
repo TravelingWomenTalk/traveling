@@ -13,8 +13,8 @@ export class ReviewService {
  
   constructor(private db: AngularFirestore) { }
  
-  get(key: string) {
-    return this.db.collection(this.dbPath).doc(key).ref.get();
+  get(id: string) {
+    return this.db.collection(this.dbPath).doc(id).ref.get();
   }
  
   getAll(): AngularFirestoreCollection<Review> {
@@ -25,11 +25,11 @@ export class ReviewService {
     this.db.collection(this.dbPath).add({...review});
   }
  
-  update(key: string, value: any): Promise<void> {
-    return this.db.collection(this.dbPath).doc(key).update(value);
+  update(id: string, value: any): Promise<void> {
+    return this.db.collection(this.dbPath).doc(id).update(value);
   }
  
-  delete(key: string): Promise<void> {
-    return this.db.collection(this.dbPath).doc(key).delete();
+  delete(id: string): Promise<void> {
+    return this.db.collection(this.dbPath).doc(id).delete();
   }
 }
