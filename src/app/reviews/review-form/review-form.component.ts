@@ -4,6 +4,7 @@ import { Review } from 'src/app/shared/models/review.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { reject } from 'q';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-review-form',
@@ -25,7 +26,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     private reviewService: ReviewService,
     private router: Router,
     private route: ActivatedRoute,
-    public fb: FormBuilder) { }
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.isEdit = this.route.routeConfig.path.substr(this.route.routeConfig.path.length - 5) === '/edit';
@@ -80,6 +81,12 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     this.review = this.reviewForm.getRawValue();
 
     this.isEdit ? this.reviewService.update(this.id, this.review) : this.reviewService.create(this.review);
+    
+    this.snackBar.open('Review saved', 'dismiss', {
+      duration: 9000,
+      panelClass: ['info-snackbar']
+    });
+
     this.router.navigate(['/reviews']);
   }
 
