@@ -2,17 +2,34 @@
 <form [formGroup]="reviewForm" (ngSubmit)="save()">
   <div class="row">
     <div class="col">
+      <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="picker" formControlName="travelDate" placeholder="Travel date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
       <mat-form-field floatLabel='auto'>
-        <mat-label>Name</mat-label>
-        <input matInput type="text" formControlName="name" required>
+        <mat-label>location</mat-label>
+        <input matInput type="text" formControlName="location" required>
       </mat-form-field>
     </div>
   </div>
   <div class="row">
     <div class="col">
       <mat-form-field floatLabel='auto'>
-        <mat-label>Age</mat-label>
-        <input matInput type="number" formControlName="age" required>
+        <mat-label>Rating</mat-label>
+        <input matInput type="number" formControlName="rating" required>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-form-field floatLabel='auto'>
+        <mat-label>Description</mat-label>
+        <textarea  matInput formControlName="description" required></textarea>
       </mat-form-field>
     </div>
   </div>

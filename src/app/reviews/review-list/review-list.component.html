@@ -2,15 +2,15 @@
 <div *ngFor="let review of reviews">
   <mat-card class="example-card">
     <mat-card-header>
-      <mat-card-title>{{review.name}}</mat-card-title>
-      <mat-card-subtitle>User</mat-card-subtitle>
+      <mat-card-title>{{review.location}}</mat-card-title>
+      <mat-card-subtitle>{{review.userId}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content (click)='navigateDetails(review)'>
       <div>
-        <label>First Name: </label> {{review.name}}
+        <label>Travel date: </label> {{review.travelDate.toDate() | date: 'dd/MM/yyyy'}}
       </div>
       <div>
-        <label>Age: </label> {{review.age}}
+        <label>description: </label> {{review.description}}
       </div>
     </mat-card-content>
     <mat-card-actions>

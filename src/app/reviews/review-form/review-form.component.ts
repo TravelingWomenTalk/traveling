@@ -2,9 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { Review } from 'src/app/shared/models/review.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { reject } from 'q';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-review-form',
@@ -14,9 +15,14 @@ import { MatSnackBar } from '@angular/material';
 export class ReviewFormComponent implements OnInit, OnDestroy {
   reviewForm: FormGroup;
   review: Review = {
-    key: undefined,
-    name: '',
-    age: undefined
+    id: undefined,
+    userId: undefined,
+    createdDate: undefined,
+    travelDate: undefined,
+    placeId: undefined,
+    location: undefined,
+    rating: undefined,
+    description: undefined
   };
   isEdit: boolean = false;
   id: string;
@@ -26,7 +32,8 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     private reviewService: ReviewService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private auth: AuthService) { }
 
   ngOnInit() {
     this.isEdit = this.route.routeConfig.path.substr(this.route.routeConfig.path.length - 5) === '/edit';
@@ -58,6 +65,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
       this.reviewService.get(this.id).then((doc) => {
         if (doc.exists) {
           this.review = <Review>doc.data();
+          this.review.travelDate = doc.data().travelDate.toDate()
           resolve();
         } else {
           console.log("No such document!");
@@ -72,16 +80,27 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this.reviewForm = new FormGroup({
-      name: new FormControl(this.review.name),
-      age: new FormControl(this.review.age)
+      travelDate: new FormControl(this.review.travelDate),
+      location: new FormControl(this.review.location),
+      rating: new FormControl(this.review.rating),
+      description: new FormControl(this.review.description)
     });
   }
 
   save() {
     this.review = this.reviewForm.getRawValue();
 
-    this.isEdit ? this.reviewService.update(this.id, this.review) : this.reviewService.create(this.review);
-    
+    if (this.isEdit) {
+      this.review.lastEdited = new Date();
+      this.reviewService.update(this.id, this.review)
+    } else {
+      this.auth.user$.subscribe((user) => {
+        this.review.userId = user.uid;
+        this.review.createdDate = new Date();
+        this.reviewService.create(this.review)
+      });
+    }
+
     this.snackBar.open('Review saved', 'dismiss', {
       duration: 9000,
       panelClass: ['info-snackbar']
