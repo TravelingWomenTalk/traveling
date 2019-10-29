@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-review-form',
@@ -64,6 +65,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
       this.reviewService.get(this.id).then((doc) => {
         if (doc.exists) {
           this.review = <Review>doc.data();
+          this.review.travelDate = doc.data().travelDate.toDate()
           resolve();
         } else {
           console.log("No such document!");
@@ -92,11 +94,13 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
       this.review.lastEdited = new Date();
       this.reviewService.update(this.id, this.review)
     } else {
-      this.auth.user$.subscribe(user => this.review.userId = user.uid);
-      this.review.createdDate = new Date();
-      this.reviewService.create(this.review);
+      this.auth.user$.subscribe((user) => {
+        this.review.userId = user.uid;
+        this.review.createdDate = new Date();
+        this.reviewService.create(this.review)
+      });
     }
-    
+
     this.snackBar.open('Review saved', 'dismiss', {
       duration: 9000,
       panelClass: ['info-snackbar']
