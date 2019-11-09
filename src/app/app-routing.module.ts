@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ReviewListComponent } from './reviews/review-list/review-list.component';
-import { ReviewFormComponent } from './reviews/review-form/review-form.component';
-import { ReviewDetailComponent } from './reviews/review-detail/review-detail.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { LoginComponent } from './login/login.component';
+import { ReviewListComponent } from './components/reviews/review-list/review-list.component';
+import { ReviewFormComponent } from './components/reviews/review-form/review-form.component';
+import { ReviewDetailComponent } from './components/reviews/review-detail/review-detail.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './auth.guard';
-import { SignupComponent } from './signup/signup.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'reviews', pathMatch: 'full' },
