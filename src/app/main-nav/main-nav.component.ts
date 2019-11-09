@@ -7,7 +7,8 @@ import { AuthService } from '../shared/services/auth.service';
   styleUrls: ['./main-nav.component.css']
 })
 export class MainNavComponent {
+  public isNavbarCollapsed: boolean = true;
 
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService) { }
 
 }

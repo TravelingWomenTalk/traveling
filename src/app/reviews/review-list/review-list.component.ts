@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { Review } from 'src/app/shared/models/review.model';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-list',
@@ -16,7 +17,10 @@ export class ReviewListComponent implements OnInit {
  
   constructor(private reviewService: ReviewService,
     private router: Router,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private titleService: Title) {
+      this.titleService.setTitle("Travelng Women Talk | Reviews");
+    }
  
   ngOnInit() {
     this.getAllReviews();
