@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
@@ -12,9 +12,9 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(
-    public auth: AuthService, 
+    public auth: AuthService,
     public router: Router,
-    public fb: FormBuilder) {}
+    public fb: FormBuilder) { }
 
   ngOnInit() {
     this.buildForm();

@@ -1,0 +1,75 @@
+<nav class="navbar navbar-expand-md navbar-dark mb-4" style="background-color: #ff5050;">
+  <a routerLink="/reviews" class="navbar-brand brand">
+    TravelingWomenTalk
+  </a>
+  <button class="navbar-toggler hidden-sm-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-target="#navbarCollapse"
+    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li [routerLinkActive]="['active']" class="nav-item">
+        <a routerLink="/reviews" class="nav-link">Reviews</a>
+      </li>
+      <li [routerLinkActive]="['active']" class="nav-item">
+        <a routerLink="/create" class="nav-link">Write</a>
+      </li>
+      <li [routerLinkActive]="['active']" class="nav-item">
+        <a routerLink="/about" class="nav-link">About</a>
+      </li>
+      <li [routerLinkActive]="['active']" class="nav-item">
+        <a routerLink="/profile" class="nav-link">Profile</a>
+      </li>
+      <li *ngIf="!isNavbarCollapsed && !(auth.user$ | async) as user" [routerLinkActive]="['active']" class="nav-item">
+        <a routerLink="/login" class="nav-link">Login</a>
+      </li>
+      <li *ngIf="!isNavbarCollapsed && !(auth.user$ | async) as user" [routerLinkActive]="['active']" class="nav-item">
+        <a routerLink="/signup" class="nav-link">Signup</a>
+      </li>
+      <li *ngIf="!isNavbarCollapsed && auth.user$ | async as user" [routerLinkActive]="['active']" class="nav-item">
+        <a routerLink="/reviews" (click)="auth.signOut()" class="nav-link">Logout</a>
+      </li>
+    </ul>
+    <form class="form-inline mt-2 mt-md-0">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" display="dynamic">
+          <a href="https://www.facebook.com/travelingwomentalk/" target="_blank" class="nav-link">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+        </li>
+        <li class="nav-item" display="dynamic">
+          <a href="https://twitter.com/talktraveling" target="_blank" class="nav-link">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item" display="dynamic">
+          <a href="https://www.youtube.com/channel/UCno9o4_BBkYpyzYKtwUGfyg" target="_blank" class="nav-link">
+            <i class="fab fa-youtube"></i>
+          </a>
+        </li>
+        <li *ngIf="isNavbarCollapsed" class="nav-item dropdown" display="dynamic" ngbDropdown>
+          <a class="nav-link active dropdown-toggle" style="cursor: pointer" ngbDropdownToggle id="navbarDropdown3">
+            <i class="fa fa-lg fa-user"></i>
+          </a>
+          <div ngbDropdownMenu aria-labelledby="navbarDropdown3" class="dropdown-menu">
+            <span *ngIf="auth.user$ | async; then authenticated else guest"></span>
+          </div>
+        </li>
+      </ul>
+    </form>
+  </div>
+</nav>
+
+<ng-template #guest>
+  <a routerLink="/login" class="dropdown-item">Login</a>
+  <a routerLink="/signup" class="dropdown-item">Signup</a>
+</ng-template>
+
+
+<!-- User logged in -->
+<ng-template #authenticated>
+  <span *ngIf="auth.user$ | async as user">
+    <a routerLink="/profile" class="dropdown-item">Profile</a>
+    <a routerLink="/reviews" (click)="auth.signOut()" class="dropdown-item">Logout</a>
+  </span>
+</ng-template>

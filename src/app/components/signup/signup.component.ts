@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
@@ -30,7 +30,6 @@ export class SignupComponent implements OnInit {
   create() {
     if (this.signupForm.valid) {
       this.auth.emailCreate(this.signupForm.getRawValue().email, this.signupForm.getRawValue().password);
-  
       this.router.navigate(['/reviews']);
     }
   }

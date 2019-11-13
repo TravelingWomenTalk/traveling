@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-main-nav',
@@ -7,7 +7,8 @@ import { AuthService } from '../shared/services/auth.service';
   styleUrls: ['./main-nav.component.css']
 })
 export class MainNavComponent {
+  public isNavbarCollapsed = true;
 
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService) { }
 
 }

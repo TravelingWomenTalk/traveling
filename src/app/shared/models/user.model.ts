@@ -1,8 +1,8 @@
 export interface User {
-    uid: string;
-    email: string;
-    photoURL?: string;
-    displayName?: string;
-    myCustomData?: string;
-    isAdmin?: boolean;
-  }
+  uid: string;
+  email: string;
+  photoURL?: string;
+  displayName?: string;
+  myCustomData?: string;
+  isAdmin?: boolean;
+}

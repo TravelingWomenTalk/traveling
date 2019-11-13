@@ -1,0 +1,31 @@
+<h3>Login</h3>
+<mat-card>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="row">
+      <div class="col">
+        <mat-form-field floatLabel='auto'>
+          <input matInput placeholder="Email" type="email" formControlName="email" required>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field floatLabel='auto'>
+          <input matInput placeholder="Password" type="password" formControlName="password" required>
+        </mat-form-field>
+      </div>
+    </div>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+</mat-card>
+<br>
+<button mat-stroked-button (click)="auth.googleSignin()" color="primary">
+  <i class="fab fa-google"></i>&nbsp;&nbsp; Log in with Google
+</button>
+<br><br>
+<button mat-stroked-button (click)="auth.facebookSignin()" color="primary">
+  <i class="fab fa-facebook-f"></i>&nbsp;&nbsp; Log in with Facebook
+</button>
+<br><br>
+<div>New to Traveling Women Talk? <a routerLink="/signup">Sign up now <i class="fa fa-sm fa-angle-double-right"
+      aria-hidden="true"></i></a></div>

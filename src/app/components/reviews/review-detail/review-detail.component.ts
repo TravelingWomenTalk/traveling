@@ -27,12 +27,14 @@ export class ReviewDetailComponent implements OnInit, OnDestroy {
     this.reviewService.get(this.id).then((doc) => {
       if (doc.exists) {
         this.review = doc.data();
+        console.log(this.review);
+
       } else {
-        console.log("No such document!");
+        console.log('No such document!');
         this.review = null;
       }
-    }).catch(function (error) {
-      console.log("Error getting document:", error);
+    }).catch(function(error) {
+      console.log('Error getting document:', error);
       this.review = null;
     });
   }
