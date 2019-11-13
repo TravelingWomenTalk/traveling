@@ -24,7 +24,8 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     rating: undefined,
     description: undefined
   };
-  isEdit: boolean = false;
+  isEdit = false;
+  title = '';
   id: string;
   private subscription: any;
 
@@ -39,16 +40,21 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     this.isEdit = this.route.routeConfig.path.substr(this.route.routeConfig.path.length - 5) === '/edit';
 
     if (this.isEdit) {
+      this.title = 'Edit review';
       this.getReviewId()
         .then(() => this.getReview())
         .then(() => this.buildForm());
+    } else {
+      this.title = 'Write a review';
     }
 
     this.buildForm();
   }
 
   ngOnDestroy() {
-    if (this.subscription) this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   getReviewId() {
@@ -64,15 +70,15 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       this.reviewService.get(this.id).then((doc) => {
         if (doc.exists) {
-          this.review = <Review>doc.data();
-          this.review.travelDate = doc.data().travelDate.toDate()
+          this.review = doc.data() as Review;
+          this.review.travelDate = doc.data().travelDate.toDate();
           resolve();
         } else {
-          console.log("No such document!");
+          console.log('No such document!');
           reject();
         }
-      }).catch(function (error) {
-        console.log("Error getting document:", error);
+      }).catch((error) => {
+        console.log('Error getting document:', error);
         reject();
       });
     });
@@ -92,12 +98,12 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
 
     if (this.isEdit) {
       this.review.lastEdited = new Date();
-      this.reviewService.update(this.id, this.review)
+      this.reviewService.update(this.id, this.review);
     } else {
       this.auth.user$.subscribe((user) => {
         this.review.userId = user.uid;
         this.review.createdDate = new Date();
-        this.reviewService.create(this.review)
+        this.reviewService.create(this.review);
       });
     }
 

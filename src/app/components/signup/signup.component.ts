@@ -30,7 +30,6 @@ export class SignupComponent implements OnInit {
   create() {
     if (this.signupForm.valid) {
       this.auth.emailCreate(this.signupForm.getRawValue().email, this.signupForm.getRawValue().password);
-  
       this.router.navigate(['/reviews']);
     }
   }

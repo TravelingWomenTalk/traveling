@@ -32,7 +32,7 @@ export class AuthService {
           return of(null);
         }
       })
-    )
+    );
   }
 
   async emailCreate(email: string, password: string) {
@@ -95,6 +95,10 @@ export class AuthService {
     return credential;
   }
 
+  getUserByUserId(id: string) {
+    return this.afs.collection('user').doc(id).ref.get();
+  }
+
   private updateUserData(user) {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
@@ -105,10 +109,9 @@ export class AuthService {
       displayName: user.displayName,
       photoURL: user.photoURL,
       isAdmin: false
-    }
+    };
 
-    return userRef.set(data, { merge: true })
-
+    return userRef.set(data, { merge: true });
   }
 
   async signOut() {

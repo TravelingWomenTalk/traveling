@@ -1,39 +1,50 @@
 <h3>Create Review</h3>
-<form [formGroup]="reviewForm" (ngSubmit)="save()">
-  <div class="row">
-    <div class="col">
-      <mat-form-field class="example-full-width">
+<div *ngIf="auth.user$ | async; then authenticated else guest">
+  <!-- template will replace this div -->
+</div>
+
+<ng-template #guest>
+  <div><a routerLink="/login">Log in to write a review <i class="fa fa-sm fa-angle-double-right"
+        aria-hidden="true"></i></a></div>
+</ng-template>
+
+<ng-template #authenticated>
+  <form [formGroup]="reviewForm" (ngSubmit)="save()">
+    <div class="row">
+      <div class="col">
+        <mat-form-field class="example-full-width">
           <input matInput [matDatepicker]="picker" formControlName="travelDate" placeholder="Travel date">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker touchUi #picker></mat-datepicker>
         </mat-form-field>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <mat-form-field floatLabel='auto'>
-        <mat-label>location</mat-label>
-        <input matInput type="text" formControlName="location" required>
-      </mat-form-field>
+    <div class="row">
+      <div class="col">
+        <mat-form-field floatLabel='auto'>
+          <mat-label>location</mat-label>
+          <input matInput type="text" formControlName="location" required>
+        </mat-form-field>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <mat-form-field floatLabel='auto'>
-        <mat-label>Rating</mat-label>
-        <input matInput type="number" formControlName="rating" required>
-      </mat-form-field>
+    <div class="row">
+      <div class="col">
+        <mat-form-field floatLabel='auto'>
+          <mat-label>Rating</mat-label>
+          <input matInput type="number" formControlName="rating" required>
+        </mat-form-field>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <mat-form-field floatLabel='auto'>
-        <mat-label>Description</mat-label>
-        <textarea  matInput formControlName="description" required></textarea>
-      </mat-form-field>
+    <div class="row">
+      <div class="col">
+        <mat-form-field floatLabel='auto'>
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" required></textarea>
+        </mat-form-field>
+      </div>
     </div>
-  </div>
 
-  <button mat-raised-button (click)="cancel()">Cancel</button> &nbsp;
-  <button mat-raised-button color="primary" type="submit">Submit</button>
-</form>
+    <button mat-raised-button (click)="cancel()">Cancel</button> &nbsp;
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+</ng-template>
