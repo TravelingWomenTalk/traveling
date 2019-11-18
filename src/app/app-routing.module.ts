@@ -7,6 +7,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './auth.guard'; // todo
 import { SignupComponent } from './components/signup/signup.component';
+import { AboutComponent } from './components/about/about.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'reviews', pathMatch: 'full' },
@@ -14,7 +15,7 @@ const routes: Routes = [
   { path: 'review/:id', component: ReviewDetailComponent },
   { path: 'review/:id/edit', component: ReviewFormComponent },
   { path: 'create', component: ReviewFormComponent }, // , canActivate: [AuthGuard] },
-  { path: 'about', component: ReviewFormComponent },
+  { path: 'about', component: AboutComponent },
   { path: 'profile', component: UserProfileComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent }
@@ -32,5 +33,6 @@ export const routingComponents = [
   ReviewDetailComponent,
   UserProfileComponent,
   LoginComponent,
-  SignupComponent
+  SignupComponent,
+  AboutComponent
 ];

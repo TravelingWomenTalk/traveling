@@ -1,17 +1,19 @@
 <h2>Reviews</h2>
 <hr>
 <div *ngFor="let review of reviews">
-  <h4>{{review.location}}</h4>
-  <span class="font-italic">
-    {{review.userId}} on {{review.travelDate.toDate() | date: 'MMM dd'}}
-    <span *ngIf="review.lastEdited" class="font-weight-light font-italic text-muted">
-      &nbsp;edited {{review.lastEdited.toDate() | timeAgo}}</span>
-  </span>
+  <div (click)='navigateDetails(review)'>
+    <h4>{{review.location}}</h4>
+    <span class="font-italic">
+      {{review.userId}} on {{review.travelDate.toDate() | date: 'MMM dd'}}
+      <span *ngIf="review.lastEdited" class="font-weight-light font-italic text-muted">
+        &nbsp;edited {{review.lastEdited.toDate() | timeAgo}}</span>
+    </span>
 
-  <p>{{review.description}}</p>
+    <p>{{review.description}}</p>
 
-  <i (click)='shareReview(review)' class="fas fa-share-alt text-muted"></i>&nbsp;&nbsp;
-  <i (click)='editReview(review)' class="fas fa-pencil-alt text-muted"></i>&nbsp;&nbsp;
-  <i (click)='deleteReview(review)' class="fas fa-trash text-muted"></i>&nbsp;&nbsp;
-  <hr>
+    <i (click)='shareReview(review)' class="fas fa-share-alt text-muted"></i>&nbsp;&nbsp;
+    <i (click)='editReview(review)' class="fas fa-pencil-alt text-muted"></i>&nbsp;&nbsp;
+    <i (click)='deleteReview(review)' class="fas fa-trash text-muted"></i>&nbsp;&nbsp;
+    <hr>
+  </div>
 </div>

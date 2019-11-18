@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user-profile',
@@ -8,7 +9,11 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor(public auth: AuthService) { }
+  constructor(
+    public auth: AuthService,
+    private titleService: Title) {
+    this.titleService.setTitle('Travelng Women Talk | Profile');
+  }
 
   ngOnInit() {
   }

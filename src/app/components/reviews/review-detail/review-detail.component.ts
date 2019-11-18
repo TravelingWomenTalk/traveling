@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-review-detail',
@@ -16,8 +17,8 @@ export class ReviewDetailComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private reviewService: ReviewService
-  ) { }
+    private reviewService: ReviewService,
+    private titleService: Title) { }
 
   ngOnInit() {
     this.subscription = this.route.params.subscribe(params => {
@@ -27,13 +28,12 @@ export class ReviewDetailComponent implements OnInit, OnDestroy {
     this.reviewService.get(this.id).then((doc) => {
       if (doc.exists) {
         this.review = doc.data();
-        console.log(this.review);
-
+        this.titleService.setTitle('Travelng Women Talk | ' + this.review.location);
       } else {
         console.log('No such document!');
         this.review = null;
       }
-    }).catch(function(error) {
+    }).catch(function (error) {
       console.log('Error getting document:', error);
       this.review = null;
     });

@@ -8,5 +8,4 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class AppComponent {
   constructor(db: AngularFirestore) {}
-  title = 'angular-travelingwomen';
 }
