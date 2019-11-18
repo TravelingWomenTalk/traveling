@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-signup',
@@ -14,7 +15,10 @@ export class SignupComponent implements OnInit {
   constructor(
     public auth: AuthService,
     public router: Router,
-    public fb: FormBuilder) { }
+    public fb: FormBuilder,
+    private titleService: Title) {
+    this.titleService.setTitle('Travelng Women Talk | Sign up');
+  }
 
   ngOnInit() {
     this.buildForm();

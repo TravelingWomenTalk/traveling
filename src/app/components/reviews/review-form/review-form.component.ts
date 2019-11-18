@@ -6,6 +6,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { DatePipe } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-review-form',
@@ -34,7 +35,10 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private auth: AuthService) { }
+    private auth: AuthService,
+    private titleService: Title) {
+    this.titleService.setTitle('Travelng Women Talk | Write');
+  }
 
   ngOnInit() {
     this.isEdit = this.route.routeConfig.path.substr(this.route.routeConfig.path.length - 5) === '/edit';
