@@ -3,10 +3,9 @@ import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { Review } from 'src/app/shared/models/review.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { DatePipe } from '@angular/common';
 import { Title } from '@angular/platform-browser';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-review-form',
@@ -34,7 +33,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     private reviewService: ReviewService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
+    public toastService: ToastService,
     private auth: AuthService,
     private titleService: Title) {
     this.titleService.setTitle('Travelng Women Talk | Write');
@@ -62,9 +61,11 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
   }
 
   getReviewId() {
+    const idParam = 'id';
+
     return new Promise((resolve, reject) => {
       this.subscription = this.route.params.subscribe(params => {
-        this.id = params['id']; // (+) converts string 'id' to a number
+        this.id = params[idParam];
         resolve();
       });
     });
@@ -111,10 +112,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
       });
     }
 
-    this.snackBar.open('Review saved', 'dismiss', {
-      duration: 9000,
-      panelClass: ['info-snackbar']
-    });
+    this.toastService.show('Review saved', { classname: 'bg-success text-light', delay: 2000 });
 
     this.router.navigate(['/reviews']);
   }

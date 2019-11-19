@@ -3,7 +3,6 @@ import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { map } from 'rxjs/operators';
 import { Review } from 'src/app/shared/models/review.model';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
 import { Title } from '@angular/platform-browser';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
@@ -20,7 +19,6 @@ export class ReviewListComponent implements OnInit {
     public toastService: ToastService,
     private reviewService: ReviewService,
     private router: Router,
-    private snackBar: MatSnackBar,
     private titleService: Title) {
     this.titleService.setTitle('Travelng Women Talk | Reviews');
   }
@@ -46,7 +44,7 @@ export class ReviewListComponent implements OnInit {
   }
 
   public shareReview(review: Review) {
-    this.toastService.show('Successfully shared review', { classname: 'bg-success text-light', delay: 2000 });
+    this.toastService.show('Shared review!', { classname: 'bg-success text-light', delay: 2000 });
   }
 
   public editReview(review: Review) {
@@ -55,9 +53,6 @@ export class ReviewListComponent implements OnInit {
 
   public deleteReview(review: Review) {
     this.reviewService.delete(review.id);
-    this.snackBar.open('Review deleted', 'dismiss', {
-      duration: 9000,
-      panelClass: ['error-snackbar']
-    });
+    this.toastService.show('Review deleted', { classname: 'bg-success text-light', delay: 2000 });
   }
 }

@@ -8,7 +8,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material';
+import { ToastService } from './toast.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -19,7 +19,7 @@ export class AuthService {
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router,
-    private snackBar: MatSnackBar
+    public toastService: ToastService
   ) {
     // Get the auth state, then fetch the Firestore user document or return null
     this.user$ = this.afAuth.authState.pipe(
@@ -37,15 +37,13 @@ export class AuthService {
 
   async emailCreate(email: string, password: string) {
     const credential = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
-    this.snackBar.open('Successfully signed up. Welcome!', 'dismiss', {
-      duration: 9000,
-      panelClass: ['info-snackbar']
-    });
+    this.toastService.show('Successfully signed up. Welcome!', { classname: 'bg-success text-light', delay: 2000 });
     return this.updateUserData(credential.user);
   }
 
   async emailLogin(email: string, password: string) {
     const credential = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+    this.toastService.show('Successfully signed up. Welcome!', { classname: 'bg-success text-light', delay: 2000 });
     this.snackBar.open('Successfully signed in', 'dismiss', {
       duration: 9000,
       panelClass: ['info-snackbar']
@@ -58,17 +56,11 @@ export class AuthService {
     const credential = await this.afAuth.auth.signInWithPopup(provider)
       .then((cred) => {
         this.updateUserData(cred.user);
-        this.snackBar.open('Successfully signed in with Google', 'dismiss', {
-          duration: 9000,
-          panelClass: ['info-snackbar']
-        });
+        this.toastService.show('Successfully signed in with Google', { classname: 'bg-success text-light', delay: 2000 });
         this.router.navigate(['/reviews']);
       })
       .catch((err) => {
-        this.snackBar.open('Something went wrong.', 'dismiss', {
-          duration: 9000,
-          panelClass: ['error-snackbar']
-        });
+        this.toastService.show('Something went wrong', { classname: 'bg-danger text-light', delay: 2000 });
         console.log(err);
       });
     return credential;
@@ -79,17 +71,11 @@ export class AuthService {
     const credential = await this.afAuth.auth.signInWithPopup(provider)
       .then((cred) => {
         this.updateUserData(cred.user);
-        this.snackBar.open('Successfully signed in with Facebook', 'dismiss', {
-          duration: 9000,
-          panelClass: ['info-snackbar']
-        });
+        this.toastService.show('Successfully signed in with Facebook', { classname: 'bg-success text-light', delay: 2000 });
         this.router.navigate(['/reviews']);
       })
       .catch((err) => {
-        this.snackBar.open('Something went wrong.', 'dismiss', {
-          duration: 9000,
-          panelClass: ['error-snackbar']
-        });
+        this.toastService.show('Something went wrong', { classname: 'bg-danger text-light', delay: 2000 });
         console.log(err);
       });
     return credential;
@@ -117,10 +103,7 @@ export class AuthService {
   async signOut() {
     await this.afAuth.auth.signOut();
 
-    this.snackBar.open('Sign out successful', 'dismiss', {
-      duration: 9000,
-      panelClass: ['info-snackbar']
-    });
+    this.toastService.show('Signed out', { classname: 'bg-success text-light', delay: 2000 });
 
     this.router.navigate(['/reviews']);
   }

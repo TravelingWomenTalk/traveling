@@ -21,8 +21,9 @@ export class ReviewDetailComponent implements OnInit, OnDestroy {
     private titleService: Title) { }
 
   ngOnInit() {
+    const idParam = 'id';
     this.subscription = this.route.params.subscribe(params => {
-      this.id = params['id']; // (+) converts string 'id' to a number
+      this.id = params[idParam];
     });
 
     this.reviewService.get(this.id).then((doc) => {
@@ -33,7 +34,7 @@ export class ReviewDetailComponent implements OnInit, OnDestroy {
         console.log('No such document!');
         this.review = null;
       }
-    }).catch(function (error) {
+    }).catch(function(error) {
       console.log('Error getting document:', error);
       this.review = null;
     });
