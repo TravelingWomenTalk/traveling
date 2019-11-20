@@ -5,6 +5,7 @@ import { Review } from 'src/app/shared/models/review.model';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-list',
@@ -19,6 +20,7 @@ export class ReviewListComponent implements OnInit {
     public toastService: ToastService,
     private reviewService: ReviewService,
     private router: Router,
+    private auth: AuthService,
     private titleService: Title) {
     this.titleService.setTitle('Travelng Women Talk | Reviews');
   }

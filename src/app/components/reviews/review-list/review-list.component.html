@@ -11,7 +11,7 @@
   <p (click)='navigateDetails(review)'>{{review.description}}</p>
 
   <i (click)='shareReview(review)' class="fas fa-share-alt text-muted"></i>&nbsp;&nbsp;
-  <i (click)='editReview(review)' class="fas fa-pencil-alt text-muted"></i>&nbsp;&nbsp;
-  <i (click)='deleteReview(review)' class="fas fa-trash text-muted"></i>&nbsp;&nbsp;
+  <i (click)='editReview(review)' *ngIf='(auth.user$ | async)? .uid === review.userId' class="fas fa-pencil-alt text-muted"></i>&nbsp;&nbsp;
+  <i (click)='deleteReview(review)' *ngIf='(auth.user$ | async)? .uid === review.userId' class='fas fa-trash text-mute'></i>&nbsp;&nbsp;
   <hr>
 </div>
