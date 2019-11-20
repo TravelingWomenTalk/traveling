@@ -43,11 +43,7 @@ export class AuthService {
 
   async emailLogin(email: string, password: string) {
     const credential = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
-    this.toastService.show('Successfully signed up. Welcome!', { classname: 'bg-success text-light', delay: 2000 });
-    this.snackBar.open('Successfully signed in', 'dismiss', {
-      duration: 9000,
-      panelClass: ['info-snackbar']
-    });
+    this.toastService.show('Successfully signed in', { classname: 'bg-success text-light', delay: 2000 });
     return this.updateUserData(credential.user);
   }
 
