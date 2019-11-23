@@ -13,7 +13,7 @@ import { ToastService } from './toast.service';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  user$: Observable<User>;
+  public user$: Observable<User>;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -35,19 +35,19 @@ export class AuthService {
     );
   }
 
-  async emailCreate(email: string, password: string) {
+  public async emailCreate(email: string, password: string) {
     const credential = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
     this.toastService.show('Successfully signed up. Welcome!', { classname: 'bg-success text-light', delay: 2000 });
     return this.updateUserData(credential.user);
   }
 
-  async emailLogin(email: string, password: string) {
+  public async emailLogin(email: string, password: string) {
     const credential = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
     this.toastService.show('Successfully signed in', { classname: 'bg-success text-light', delay: 2000 });
     return this.updateUserData(credential.user);
   }
 
-  async googleSignin() {
+  public async googleSignin() {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider)
       .then((cred) => {
@@ -62,7 +62,7 @@ export class AuthService {
     return credential;
   }
 
-  async facebookSignin() {
+  public async facebookSignin() {
     const provider = new auth.FacebookAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider)
       .then((cred) => {
@@ -77,7 +77,7 @@ export class AuthService {
     return credential;
   }
 
-  getUserByUserId(id: string) {
+  public getUserByUserId(id: string) {
     return this.afs.collection('user').doc(id).ref.get();
   }
 
@@ -96,7 +96,7 @@ export class AuthService {
     return userRef.set(data, { merge: true });
   }
 
-  async signOut() {
+  public async signOut() {
     await this.afAuth.auth.signOut();
 
     this.toastService.show('Signed out', { classname: 'bg-success text-light', delay: 2000 });

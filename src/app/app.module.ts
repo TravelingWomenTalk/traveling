@@ -1,26 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDatepickerModule, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  MatButtonModule,
-  MatToolbarModule,
-  MatSidenavModule,
   MatIconModule,
   MatListModule,
-  MatCardModule,
-  MatFormField,
   MatFormFieldModule,
   MatOptionModule,
   MatSelectModule,
-  MatInputModule,
-  MatTabsModule,
-  MatSnackBarModule,
-  MatDatepickerModule,
-  MatNativeDateModule
+  MatInputModule
 } from '@angular/material';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -54,23 +45,21 @@ import { ToastService } from './shared/services/toast.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     NgbModule,
-    MatButtonModule,
-    MatCardModule,
+    NgbDatepickerModule,
+
     MatFormFieldModule,
     MatOptionModule,
     MatSelectModule,
     MatInputModule,
     LayoutModule,
-    MatToolbarModule,
-    MatSidenavModule,
     MatIconModule,
-    MatListModule,
-    MatTabsModule,
-    MatSnackBarModule,
-    MatDatepickerModule,
-    MatNativeDateModule
+    MatListModule
   ],
-  providers: [ReviewService, ToastService],
+  providers: [
+    {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter},
+    ReviewService,
+    ToastService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

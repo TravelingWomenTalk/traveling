@@ -9,42 +9,37 @@
 </ng-template>
 
 <ng-template #authenticated>
-  <form [formGroup]="reviewForm" (ngSubmit)="save()">
-    <div class="row">
-      <div class="col">
-        <mat-form-field class="example-full-width">
-          <input matInput [matDatepicker]="picker" formControlName="travelDate" placeholder="Travel date">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker touchUi #picker></mat-datepicker>
-        </mat-form-field>
+  
+<form [formGroup]="reviewForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="travelDateInput">Travel date</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd" name="datepicker" formControlName="travelDate" id="travelDateInput"
+            ngbDatepicker #d="ngbDatepicker" required>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"><i
+                class="fas fa-calendar-day"></i></button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col">
-        <mat-form-field floatLabel='auto'>
-          <mat-label>location</mat-label>
-          <input matInput type="text" formControlName="location" required>
-        </mat-form-field>
-      </div>
+    <div class="form-group">
+      <label for="locationInput">What are you reviewing?</label>
+      <input type="text" class="form-control" id="locationInput"
+        placeholder="Big Billy's Burger Joint, North Charleston, SC" formControlName="location" required>
     </div>
-    <div class="row">
-      <div class="col">
-        <mat-form-field floatLabel='auto'>
-          <mat-label>Rating</mat-label>
-          <input matInput type="number" formControlName="rating" required>
-        </mat-form-field>
-      </div>
+    <div class="form-group">
+      <label for="ratingInput">Rating</label>
+      <input type="number" class="form-control" id="ratingInput" placeholder="Rating out of 5" formControlName="rating"
+        required>
     </div>
-    <div class="row">
-      <div class="col">
-        <mat-form-field floatLabel='auto'>
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description" required></textarea>
-        </mat-form-field>
-      </div>
+    <div class="form-group">
+      <label for="descriptionInput">Share your experiences at this place</label>
+      <textarea class="form-control" id="descriptionInput" rows="3" formControlName="description" required></textarea>
     </div>
-
-    <button mat-raised-button (click)="cancel()">Cancel</button> &nbsp;
-    <button mat-raised-button color="primary" type="submit">Submit</button>
+    <button class="btn btn-primary" (click)="save()">Submit</button>
+    <button class="btn btn-link" (click)="cancel()">Cancel</button>
   </form>
+
 </ng-template>

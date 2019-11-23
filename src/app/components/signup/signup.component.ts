@@ -10,7 +10,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
-  signupForm: FormGroup;
+  public signupForm: FormGroup;
 
   constructor(
     public auth: AuthService,
@@ -20,18 +20,18 @@ export class SignupComponent implements OnInit {
     this.titleService.setTitle('Travelng Women Talk | Sign up');
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.buildForm();
   }
 
-  buildForm() {
+  public buildForm() {
     this.signupForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)])
     });
   }
 
-  create() {
+  public create() {
     if (this.signupForm.valid) {
       this.auth.emailCreate(this.signupForm.getRawValue().email, this.signupForm.getRawValue().password);
       this.router.navigate(['/reviews']);

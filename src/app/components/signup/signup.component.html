@@ -1,48 +1,46 @@
 <h3>Signup</h3>
-<mat-card>
-  <form [formGroup]="signupForm">
-    <div class="row">
-      <div class="col">
-        <mat-form-field floatLabel='auto'>
-          <input matInput placeholder="Email" type="email" formControlName="email" required>
-        </mat-form-field>
+<form [formGroup]="signupForm">
+  <div class="row">
+    <div class="col">
+      <mat-form-field floatLabel='auto'>
+        <input matInput placeholder="Email" type="email" formControlName="email" required>
+      </mat-form-field>
 
-        <div *ngIf="emailControl?.invalid && emailControl?.touched" class="alert alert-danger">
-          <div *ngIf="emailControl?.errors.required">
-            Email is required.
-          </div>
-          <div *ngIf="emailControl?.errors.email">
-            Must be a valid email.
-          </div>
+      <div *ngIf="emailControl?.invalid && emailControl?.touched" class="alert alert-danger">
+        <div *ngIf="emailControl?.errors.required">
+          Email is required.
         </div>
-
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <mat-form-field floatLabel='auto'>
-          <input matInput placeholder="Password" type="password" formControlName="password" required>
-        </mat-form-field>
-
-        <div *ngIf="passwordControl?.invalid && passwordControl?.touched" class="alert alert-danger">
-          <div *ngIf="passwordControl?.errors?.required">
-            Name is required.
-          </div>
-          <div *ngIf="passwordControl?.errors?.minlength">
-            Name must be at least {{passwordControl?.errors?.minlength.requiredLength}} characters long.
-          </div>
+        <div *ngIf="emailControl?.errors.email">
+          Must be a valid email.
         </div>
-
       </div>
+
     </div>
-    <button mat-raised-button color="primary" type="button" (click)="create()">Submit</button>
-  </form>
-</mat-card>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-form-field floatLabel='auto'>
+        <input matInput placeholder="Password" type="password" formControlName="password" required>
+      </mat-form-field>
+
+      <div *ngIf="passwordControl?.invalid && passwordControl?.touched" class="alert alert-danger">
+        <div *ngIf="passwordControl?.errors?.required">
+          Name is required.
+        </div>
+        <div *ngIf="passwordControl?.errors?.minlength">
+          Name must be at least {{passwordControl?.errors?.minlength.requiredLength}} characters long.
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <button mat-raised-button color="primary" type="button" (click)="create()">Submit</button>
+</form>
 <br>
-<button mat-stroked-button (click)="auth.googleSignin()" color="primary">
+<button class="btn btn-primary" (click)="auth.googleSignin()" color="primary">
   <i class="fab fa-google"></i>&nbsp;&nbsp; Sign up with Google
 </button>
 <br><br>
-<button mat-stroked-button (click)="auth.facebookSignin()" color="primary">
+<button class="btn btn-primary" (click)="auth.facebookSignin()" color="primary">
   <i class="fab fa-facebook-f"></i>&nbsp;&nbsp; Sign up with Facebook
 </button>

@@ -1,6 +1,6 @@
 <h2>Reviews</h2>
 <hr>
-<div *ngFor="let review of reviews">
+<div *ngFor="let review of reviews | async">
   <h4 (click)='navigateDetails(review)'>{{review.location}}</h4>
   <span (click)='navigateDetails(review)' class="font-italic">
     {{review.userId}} on {{review.travelDate.toDate() | date: 'MMM dd'}}

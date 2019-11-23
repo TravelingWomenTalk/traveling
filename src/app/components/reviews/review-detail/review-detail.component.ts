@@ -10,8 +10,8 @@ import { Title } from '@angular/platform-browser';
 })
 export class ReviewDetailComponent implements OnInit, OnDestroy {
 
-  review: any;
-  id: string;
+  public review: any;
+  public id: string;
   private subscription: any;
 
   constructor(
@@ -20,7 +20,7 @@ export class ReviewDetailComponent implements OnInit, OnDestroy {
     private reviewService: ReviewService,
     private titleService: Title) { }
 
-  ngOnInit() {
+    public ngOnInit() {
     const idParam = 'id';
     this.subscription = this.route.params.subscribe(params => {
       this.id = params[idParam];
@@ -40,12 +40,12 @@ export class ReviewDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
 
-  deleteReview() {
+  public deleteReview() {
     this.reviewService.delete(this.review.id)
       .catch(err => console.log(err));
 

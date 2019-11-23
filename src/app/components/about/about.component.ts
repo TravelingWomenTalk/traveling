@@ -12,7 +12,7 @@ export class AboutComponent implements OnInit {
     this.titleService.setTitle('Travelng Women Talk | About');
   }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
 }

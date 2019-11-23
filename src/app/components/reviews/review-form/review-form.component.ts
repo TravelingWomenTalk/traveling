@@ -13,8 +13,8 @@ import { ToastService } from 'src/app/shared/services/toast.service';
   styleUrls: ['./review-form.component.scss']
 })
 export class ReviewFormComponent implements OnInit, OnDestroy {
-  reviewForm: FormGroup;
-  review: Review = {
+  public reviewForm: FormGroup;
+  public review: Review = {
     id: undefined,
     userId: undefined,
     createdDate: undefined,
@@ -24,9 +24,9 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     rating: undefined,
     description: undefined
   };
-  isEdit = false;
-  title = '';
-  id: string;
+  public isEdit = false;
+  public title = '';
+  public id: string;
   private subscription: any;
 
   constructor(
@@ -39,7 +39,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     this.titleService.setTitle('Travelng Women Talk | Write');
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.isEdit = this.route.routeConfig.path.substr(this.route.routeConfig.path.length - 5) === '/edit';
 
     if (this.isEdit) {
@@ -54,13 +54,13 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     this.buildForm();
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getReviewId() {
+  public getReviewId() {
     const idParam = 'id';
 
     return new Promise((resolve, reject) => {
@@ -71,7 +71,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  getReview() {
+  public getReview() {
     return new Promise((resolve, reject) => {
       this.reviewService.get(this.id).then((doc) => {
         if (doc.exists) {
@@ -89,7 +89,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  buildForm() {
+  public buildForm() {
     this.reviewForm = new FormGroup({
       travelDate: new FormControl(this.review.travelDate),
       location: new FormControl(this.review.location),
@@ -98,7 +98,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  save() {
+  public save() {
     this.review = this.reviewForm.getRawValue();
 
     if (this.isEdit) {
@@ -117,7 +117,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/reviews']);
   }
 
-  cancel() {
+  public cancel() {
     this.router.navigate(['/reviews']);
   }
 }
