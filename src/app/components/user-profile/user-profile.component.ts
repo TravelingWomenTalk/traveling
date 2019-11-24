@@ -10,12 +10,11 @@ import { Title } from '@angular/platform-browser';
 export class UserProfileComponent implements OnInit {
 
   constructor(
-    public auth: AuthService,
+    public authService: AuthService,
     private titleService: Title) {
     this.titleService.setTitle('Travelng Women Talk | Profile');
   }
 
-  ngOnInit() {
-  }
+  public ngOnInit() { }
 
 }

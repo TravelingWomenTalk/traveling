@@ -1,45 +1,37 @@
-import { BrowserModule } from '@angular/platform-browser';
+// @angular
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { AppRoutingModule, routingComponents } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  MatButtonModule,
-  MatToolbarModule,
-  MatSidenavModule,
-  MatIconModule,
-  MatListModule,
-  MatCardModule,
-  MatFormField,
-  MatFormFieldModule,
-  MatOptionModule,
-  MatSelectModule,
-  MatInputModule,
-  MatTabsModule,
-  MatSnackBarModule,
-  MatDatepickerModule,
-  MatNativeDateModule
-} from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+// Angular firebase
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { MainNavComponent } from './components/main-nav/main-nav.component';
-import { LayoutModule } from '@angular/cdk/layout';
+
+// Application
 import { environment } from 'src/environments/environment';
+import { AppRoutingModule, RoutingComponents } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+// Services
 import { ReviewService } from './shared/services/review.sevice';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TimeAgoPipe } from 'time-ago-pipe';
-import { ToastsComponent } from './shared/components/toast/toast.component';
 import { ToastService } from './shared/services/toast.service';
+
+// Components
+import { MainNavComponent } from './components/main-nav/main-nav.component';
+import { ToastsComponent } from './shared/components/toast/toast.component';
+
+// User Interface
+import { TimeAgoPipe } from 'time-ago-pipe';
+import { NgbModule, NgbDatepickerModule, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainNavComponent,
-    routingComponents,
+    RoutingComponents,
     ToastsComponent,
     TimeAgoPipe
   ],
@@ -54,23 +46,13 @@ import { ToastService } from './shared/services/toast.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     NgbModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatInputModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatTabsModule,
-    MatSnackBarModule,
-    MatDatepickerModule,
-    MatNativeDateModule
+    NgbDatepickerModule
   ],
-  providers: [ReviewService, ToastService],
+  providers: [
+    {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter},
+    ReviewService,
+    ToastService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

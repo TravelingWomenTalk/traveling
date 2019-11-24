@@ -9,6 +9,6 @@ import { AuthService } from '../../shared/services/auth.service';
 export class MainNavComponent {
   public isNavbarCollapsed = true;
 
-  constructor(public auth: AuthService) { }
+  constructor(public authService: AuthService) { }
 
 }

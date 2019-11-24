@@ -3,10 +3,9 @@ import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { Review } from 'src/app/shared/models/review.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { DatePipe } from '@angular/common';
 import { Title } from '@angular/platform-browser';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-review-form',
@@ -14,8 +13,8 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./review-form.component.scss']
 })
 export class ReviewFormComponent implements OnInit, OnDestroy {
-  reviewForm: FormGroup;
-  review: Review = {
+  public reviewForm: FormGroup;
+  public review: Review = {
     id: undefined,
     userId: undefined,
     createdDate: undefined,
@@ -25,22 +24,22 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     rating: undefined,
     description: undefined
   };
-  isEdit = false;
-  title = '';
-  id: string;
+  public isEdit = false;
+  public title = '';
+  public id: string;
   private subscription: any;
 
   constructor(
     private reviewService: ReviewService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private auth: AuthService,
+    public toastService: ToastService,
+    private authService: AuthService,
     private titleService: Title) {
     this.titleService.setTitle('Travelng Women Talk | Write');
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.isEdit = this.route.routeConfig.path.substr(this.route.routeConfig.path.length - 5) === '/edit';
 
     if (this.isEdit) {
@@ -55,22 +54,24 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     this.buildForm();
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getReviewId() {
+  public getReviewId() {
+    const idParam = 'id';
+
     return new Promise((resolve, reject) => {
       this.subscription = this.route.params.subscribe(params => {
-        this.id = params['id']; // (+) converts string 'id' to a number
+        this.id = params[idParam];
         resolve();
       });
     });
   }
 
-  getReview() {
+  public getReview() {
     return new Promise((resolve, reject) => {
       this.reviewService.get(this.id).then((doc) => {
         if (doc.exists) {
@@ -88,7 +89,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  buildForm() {
+  public buildForm() {
     this.reviewForm = new FormGroup({
       travelDate: new FormControl(this.review.travelDate),
       location: new FormControl(this.review.location),
@@ -97,29 +98,26 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  save() {
+  public save() {
     this.review = this.reviewForm.getRawValue();
 
     if (this.isEdit) {
       this.review.lastEdited = new Date();
       this.reviewService.update(this.id, this.review);
     } else {
-      this.auth.user$.subscribe((user) => {
+      this.authService.user$.subscribe((user) => {
         this.review.userId = user.uid;
         this.review.createdDate = new Date();
         this.reviewService.create(this.review);
       });
     }
 
-    this.snackBar.open('Review saved', 'dismiss', {
-      duration: 9000,
-      panelClass: ['info-snackbar']
-    });
+    this.toastService.show('Review saved', { classname: 'bg-success text-light', delay: 2000 });
 
     this.router.navigate(['/reviews']);
   }
 
-  cancel() {
+  public cancel() {
     this.router.navigate(['/reviews']);
   }
 }

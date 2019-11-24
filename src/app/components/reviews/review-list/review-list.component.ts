@@ -3,9 +3,10 @@ import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { map } from 'rxjs/operators';
 import { Review } from 'src/app/shared/models/review.model';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
 import { Title } from '@angular/platform-browser';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -14,50 +15,57 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 })
 export class ReviewListComponent implements OnInit {
 
-  reviews: any;
+  public reviews: Observable<Review[]>;
 
   constructor(
     public toastService: ToastService,
     private reviewService: ReviewService,
     private router: Router,
-    private snackBar: MatSnackBar,
+    private authService: AuthService,
     private titleService: Title) {
     this.titleService.setTitle('Travelng Women Talk | Reviews');
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.getAllReviews();
   }
 
   public getAllReviews() {
-    this.reviewService.getAll().snapshotChanges().pipe(
-      map(changes =>
-        changes.map(c =>
-          ({ id: c.payload.doc.id, ...c.payload.doc.data() })
-        )
-      )
-    ).subscribe(reviews => {
-      this.reviews = reviews;
-    });
+    this.reviews = this.reviewService.getAll().snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Review;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
+    );
   }
 
   public navigateDetails(review: Review) {
-    this.router.navigate(['/review', review.id]);
+    this.router.navigate(['review', review.id]);
   }
 
   public shareReview(review: Review) {
-    this.toastService.show('Successfully shared review', { classname: 'bg-success text-light', delay: 2000 });
+    this.toastService.show('Shared review!', { classname: 'bg-success text-light', delay: 2000 });
   }
 
   public editReview(review: Review) {
-    this.router.navigate(['/review', review.id, 'edit']);
+    this.authService.user$.subscribe((user) => {
+      if (user.uid === review.userId) {
+        this.router.navigate(['review', review.id, 'edit']);
+      } else {
+        this.toastService.show('You cannot edit a review you did not write.', { classname: 'bg-danger text-light', delay: 2000 });
+      }
+    });
   }
 
   public deleteReview(review: Review) {
-    this.reviewService.delete(review.id);
-    this.snackBar.open('Review deleted', 'dismiss', {
-      duration: 9000,
-      panelClass: ['error-snackbar']
+    this.authService.user$.subscribe((user) => {
+      if (user.uid === review.userId) {
+        this.reviewService.delete(review.id);
+        this.toastService.show('Review deleted', { classname: 'bg-success text-light', delay: 2000 });
+      } else {
+        this.toastService.show('You cannot delete a review that isn\'t yours.', { classname: 'bg-danger text-light', delay: 2000 });
+      }
     });
   }
 }

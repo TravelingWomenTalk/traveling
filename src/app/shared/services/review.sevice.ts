@@ -6,30 +6,27 @@ import { Review } from '../models/review.model';
   providedIn: 'root'
 })
 export class ReviewService {
-
   private dbPath = '/reviews';
 
-  reviewsRef: AngularFirestoreCollection<Review> = null;
+  constructor(private afs: AngularFirestore) { }
 
-  constructor(private db: AngularFirestore) { }
-
-  get(id: string) {
-    return this.db.collection(this.dbPath).doc(id).ref.get();
+  public get(id: string) {
+    return this.afs.collection(this.dbPath).doc(id).ref.get();
   }
 
-  getAll(): AngularFirestoreCollection<Review> {
-    return this.db.collection(this.dbPath);
+  public getAll(): AngularFirestoreCollection<Review> {
+    return this.afs.collection<Review>(this.dbPath);
   }
 
-  create(review: Review): void {
-    this.db.collection(this.dbPath).add({ ...review });
+  public create(review: Review): void {
+    this.afs.collection(this.dbPath).add({ ...review });
   }
 
-  update(id: string, value: any): Promise<void> {
-    return this.db.collection(this.dbPath).doc(id).update(value);
+  public update(id: string, value: any): Promise<void> {
+    return this.afs.collection(this.dbPath).doc(id).update(value);
   }
 
-  delete(id: string): Promise<void> {
-    return this.db.collection(this.dbPath).doc(id).delete();
+  public delete(id: string): Promise<void> {
+    return this.afs.collection(this.dbPath).doc(id).delete();
   }
 }
