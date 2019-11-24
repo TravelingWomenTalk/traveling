@@ -5,7 +5,6 @@ import { ReviewFormComponent } from './components/reviews/review-form/review-for
 import { ReviewDetailComponent } from './components/reviews/review-detail/review-detail.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { LoginComponent } from './components/login/login.component';
-import { AuthGuard } from './auth.guard'; // todo
 import { SignupComponent } from './components/signup/signup.component';
 import { AboutComponent } from './components/about/about.component';
 
@@ -14,7 +13,7 @@ const routes: Routes = [
   { path: 'reviews', component: ReviewListComponent },
   { path: 'review/:id', component: ReviewDetailComponent },
   { path: 'review/:id/edit', component: ReviewFormComponent },
-  { path: 'create', component: ReviewFormComponent }, // , canActivate: [AuthGuard] },
+  { path: 'create', component: ReviewFormComponent },
   { path: 'about', component: AboutComponent },
   { path: 'profile', component: UserProfileComponent },
   { path: 'login', component: LoginComponent },
@@ -27,7 +26,7 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 
-export const routingComponents = [
+export const RoutingComponents = [
   ReviewFormComponent,
   ReviewListComponent,
   ReviewDetailComponent,

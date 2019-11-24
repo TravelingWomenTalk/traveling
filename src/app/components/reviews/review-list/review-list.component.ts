@@ -21,7 +21,7 @@ export class ReviewListComponent implements OnInit {
     public toastService: ToastService,
     private reviewService: ReviewService,
     private router: Router,
-    private auth: AuthService,
+    private authService: AuthService,
     private titleService: Title) {
     this.titleService.setTitle('Travelng Women Talk | Reviews');
   }
@@ -49,11 +49,23 @@ export class ReviewListComponent implements OnInit {
   }
 
   public editReview(review: Review) {
-    this.router.navigate(['review', review.id, 'edit']);
+    this.authService.user$.subscribe((user) => {
+      if (user.uid === review.userId) {
+        this.router.navigate(['review', review.id, 'edit']);
+      } else {
+        this.toastService.show('You cannot edit a review you did not write.', { classname: 'bg-danger text-light', delay: 2000 });
+      }
+    });
   }
 
   public deleteReview(review: Review) {
-    this.reviewService.delete(review.id);
-    this.toastService.show('Review deleted', { classname: 'bg-success text-light', delay: 2000 });
+    this.authService.user$.subscribe((user) => {
+      if (user.uid === review.userId) {
+        this.reviewService.delete(review.id);
+        this.toastService.show('Review deleted', { classname: 'bg-success text-light', delay: 2000 });
+      } else {
+        this.toastService.show('You cannot delete a review that isn\'t yours.', { classname: 'bg-danger text-light', delay: 2000 });
+      }
+    });
   }
 }

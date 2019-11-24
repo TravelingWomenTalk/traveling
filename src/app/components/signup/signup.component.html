@@ -1,41 +1,35 @@
 <h3>Signup</h3>
 <form [formGroup]="signupForm">
-  <div class="row">
-    <div class="col">
-      <mat-form-field floatLabel='auto'>
-        <input matInput placeholder="Email" type="email" formControlName="email" required>
-      </mat-form-field>
-
-      <div *ngIf="emailControl?.invalid && emailControl?.touched" class="alert alert-danger">
-        <div *ngIf="emailControl?.errors.required">
-          Email is required.
-        </div>
-        <div *ngIf="emailControl?.errors.email">
-          Must be a valid email.
-        </div>
+  <div class="form-group">
+    <label for="Email">Email address</label>
+    <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email"
+      formControlName="email" required>
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <div *ngIf="emailControl?.invalid && emailControl?.touched" class="alert alert-danger">
+      <div *ngIf="emailControl?.errors.required">
+        Email is required.
       </div>
-
+      <div *ngIf="emailControl?.errors.email">
+        Must be a valid email.
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      <mat-form-field floatLabel='auto'>
-        <input matInput placeholder="Password" type="password" formControlName="password" required>
-      </mat-form-field>
 
-      <div *ngIf="passwordControl?.invalid && passwordControl?.touched" class="alert alert-danger">
-        <div *ngIf="passwordControl?.errors?.required">
-          Name is required.
-        </div>
-        <div *ngIf="passwordControl?.errors?.minlength">
-          Name must be at least {{passwordControl?.errors?.minlength.requiredLength}} characters long.
-        </div>
+  <div class="form-group">
+    <label for="Password">Password</label>
+    <input type="password" class="form-control" placeholder="Password" formControlName="password" required>
+    <div *ngIf="passwordControl?.invalid && passwordControl?.touched" class="alert alert-danger">
+      <div *ngIf="passwordControl?.errors?.required">
+        Name is required.
       </div>
-
+      <div *ngIf="passwordControl?.errors?.minlength">
+        Name must be at least {{passwordControl?.errors?.minlength.requiredLength}} characters long.
+      </div>
     </div>
   </div>
-  <button mat-raised-button color="primary" type="button" (click)="create()">Submit</button>
+  <button type="button" class="btn btn-primary" (click)="create()">Submit</button>
 </form>
+
 <br>
 <button class="btn btn-primary" (click)="auth.googleSignin()" color="primary">
   <i class="fab fa-google"></i>&nbsp;&nbsp; Sign up with Google
