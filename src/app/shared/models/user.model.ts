@@ -5,4 +5,5 @@ export interface User {
   displayName?: string;
   myCustomData?: string;
   isAdmin?: boolean;
+  gender?: string;
 }

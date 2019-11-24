@@ -50,7 +50,7 @@ export class ReviewListComponent implements OnInit {
 
   public editReview(review: Review) {
     this.authService.user$.subscribe((user) => {
-      if (user.uid === review.userId) {
+      if (user.uid === review.user.uid) {
         this.router.navigate(['review', review.id, 'edit']);
       } else {
         this.toastService.show('You cannot edit a review you did not write.', { classname: 'bg-danger text-light', delay: 2000 });
@@ -60,7 +60,7 @@ export class ReviewListComponent implements OnInit {
 
   public deleteReview(review: Review) {
     this.authService.user$.subscribe((user) => {
-      if (user.uid === review.userId) {
+      if (user.uid === review.user.uid) {
         this.reviewService.delete(review.id);
         this.toastService.show('Review deleted', { classname: 'bg-success text-light', delay: 2000 });
       } else {

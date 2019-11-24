@@ -16,7 +16,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
   public reviewForm: FormGroup;
   public review: Review = {
     id: undefined,
-    userId: undefined,
+    user: undefined,
     createdDate: undefined,
     travelDate: undefined,
     placeId: undefined,
@@ -106,7 +106,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
       this.reviewService.update(this.id, this.review);
     } else {
       this.authService.user$.subscribe((user) => {
-        this.review.userId = user.uid;
+        this.review.user = user;
         this.review.createdDate = new Date();
         this.reviewService.create(this.review);
       });

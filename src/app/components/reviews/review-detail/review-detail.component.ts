@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-review-detail',
@@ -17,6 +18,7 @@ export class ReviewDetailComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private authService: AuthService,
     private reviewService: ReviewService,
     private titleService: Title) { }
 

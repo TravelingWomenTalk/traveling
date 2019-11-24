@@ -1,8 +1,23 @@
 <div *ngIf="review">
   <div>
-    <label>First Name: </label> {{review.name}}
+    <label>Location: </label> {{review.location}}
   </div>
   <div>
-    <label>Age: </label> {{review.age}}
+    <label>User: </label> {{review.user.displayName}}
   </div>
+  <div>
+    <label>Travel date: </label> {{review.travelDate.toDate() | date: 'MMM dd'}}
+  </div>
+  <div>
+    <label>Post created: </label> {{review.createdDate.toDate() | date: 'MMM dd'}}
+    <span *ngIf="review.lastEdited" class="font-weight-light font-italic text-muted">
+      &nbsp;edited {{review.lastEdited.toDate() | timeAgo}}</span>
+  </div>
+  <div>
+    <label>Description: </label> {{review.description}}
+  </div>
+
+  <i (click)='shareReview(review)' class="fas fa-share-alt text-muted"></i>&nbsp;&nbsp;
+  <i (click)='editReview(review)' *ngIf='(authService.user$ | async)?.uid === review.user.uid' class="fas fa-pencil-alt text-muted"></i>&nbsp;&nbsp;
+  <i (click)='deleteReview(review)' *ngIf='(authService.user$ | async)?.uid === review.user.uid' class='fas fa-trash text-mute'></i>
 </div>
