@@ -1,5 +1,5 @@
 <h3>Create Review</h3>
-<div *ngIf="auth.user$ | async; then authenticated else guest">
+<div *ngIf="authService.user$ | async; then authenticated else guest">
   <!-- template will replace this div -->
 </div>
 

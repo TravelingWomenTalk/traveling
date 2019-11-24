@@ -34,7 +34,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     public toastService: ToastService,
-    private auth: AuthService,
+    private authService: AuthService,
     private titleService: Title) {
     this.titleService.setTitle('Travelng Women Talk | Write');
   }
@@ -105,7 +105,7 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
       this.review.lastEdited = new Date();
       this.reviewService.update(this.id, this.review);
     } else {
-      this.auth.user$.subscribe((user) => {
+      this.authService.user$.subscribe((user) => {
         this.review.userId = user.uid;
         this.review.createdDate = new Date();
         this.reviewService.create(this.review);

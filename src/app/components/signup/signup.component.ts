@@ -13,7 +13,7 @@ export class SignupComponent implements OnInit {
   public signupForm: FormGroup;
 
   constructor(
-    public auth: AuthService,
+    public authService: AuthService,
     public router: Router,
     public fb: FormBuilder,
     private titleService: Title) {
@@ -33,7 +33,7 @@ export class SignupComponent implements OnInit {
 
   public create() {
     if (this.signupForm.valid) {
-      this.auth.emailCreate(this.signupForm.getRawValue().email, this.signupForm.getRawValue().password);
+      this.authService.emailCreate(this.signupForm.getRawValue().email, this.signupForm.getRawValue().password);
       this.router.navigate(['/reviews']);
     }
   }

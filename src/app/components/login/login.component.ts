@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
 
   constructor(
-    public auth: AuthService,
+    public authService: AuthService,
     public router: Router,
     public fb: FormBuilder,
     private titleService: Title) {
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   public login(email: string, password: string) {
-    this.auth.emailLogin(this.loginForm.getRawValue().email, this.loginForm.getRawValue().password);
+    this.authService.emailLogin(this.loginForm.getRawValue().email, this.loginForm.getRawValue().password);
 
     this.router.navigate(['/reviews']);
   }
