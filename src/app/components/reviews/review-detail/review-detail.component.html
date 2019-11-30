@@ -3,7 +3,7 @@
     <label>Location: </label> {{review.location}}
   </div>
   <div>
-    <label>User: </label> {{review.user.displayName}}
+    <label>User: </label>&nbsp; <a [routerLink]="['/profile', review.user.uid]">{{review.user.displayName}}</a>
   </div>
   <div>
     <label>Travel date: </label> {{ review.travelDate.toDate() | dateFormat }}

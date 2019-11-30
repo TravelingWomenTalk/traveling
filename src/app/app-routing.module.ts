@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'review/:id/edit', component: ReviewFormComponent },
   { path: 'create', component: ReviewFormComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'profile', component: UserProfileComponent },
+  { path: 'profile/:id', component: UserProfileComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent }
 ];
