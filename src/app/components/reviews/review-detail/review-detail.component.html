@@ -6,10 +6,10 @@
     <label>User: </label> {{review.user.displayName}}
   </div>
   <div>
-    <label>Travel date: </label> {{review.travelDate.toDate() | date: 'MMM dd'}}
+    <label>Travel date: </label> {{ review.travelDate.toDate() | dateFormat }}
   </div>
   <div>
-    <label>Post created: </label> {{review.createdDate.toDate() | date: 'MMM dd'}}
+    <label>Post created: </label> {{ review.createdDate.toDate() | dateFormat }}
     <span *ngIf="review.lastEdited" class="font-weight-light font-italic text-muted">
       &nbsp;edited {{review.lastEdited.toDate() | timeAgo}}</span>
   </div>

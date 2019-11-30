@@ -3,7 +3,7 @@
 <div *ngFor="let review of reviews | async">
   <h4 (click)='navigateDetails(review)'>{{review.location}}</h4>
   <span (click)='navigateDetails(review)' class="font-italic">
-    {{review.user.displayName}} on {{review.travelDate.toDate() | date: 'MMM dd'}}
+    {{review.user.displayName}} on {{ review.travelDate.toDate() | dateFormat }}
     <span *ngIf="review.lastEdited" class="font-weight-light font-italic text-muted">
       &nbsp;edited {{review.lastEdited.toDate() | timeAgo}}</span>
   </span>

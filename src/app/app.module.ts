@@ -26,6 +26,7 @@ import { ToastsComponent } from './shared/components/toast/toast.component';
 // User Interface
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { NgbModule, NgbDatepickerModule, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { NgbModule, NgbDatepickerModule, NgbDateAdapter, NgbDateNativeAdapter } 
     MainNavComponent,
     RoutingComponents,
     ToastsComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    DateFormatPipe
   ],
   imports: [
     BrowserModule,

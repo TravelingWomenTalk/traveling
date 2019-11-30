@@ -15,7 +15,8 @@ export class ReviewService {
   }
 
   public getAll(): AngularFirestoreCollection<Review> {
-    return this.afs.collection<Review>(this.dbPath);
+    return this.afs.collection<Review>(this.dbPath, ref => 
+      ref.orderBy('createdDate'));
   }
 
   public create(review: Review): void {
