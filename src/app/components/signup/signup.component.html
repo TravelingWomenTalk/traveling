@@ -4,7 +4,7 @@
       <div class="form-group">
         <label for="Email">Email*</label>
         <input type="email" class="form-control"
-          [ngClass]="{'is-invalid': emailControl?.invalid, 'is-valid': !emailControl?.invalid }"
+          [ngClass]="{'is-invalid': emailControl?.invalid, 'is-valid': !emailControl?.invalid}"
           aria-describedby="emailHelp" placeholder="Enter email" formControlName="email" required>
         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
       </div>
@@ -12,13 +12,13 @@
       <div class="form-group">
         <label for="Password">Password*</label>
         <input type="password" class="form-control"
-          [ngClass]="{'is-invalid': passwordControl?.invalid, 'is-valid': !passwordControl?.invalid }"
+          [ngClass]="{'is-invalid': passwordControl?.invalid, 'is-valid': !passwordControl?.invalid}"
           aria-describedby="passwordHelp" placeholder="Password" formControlName="password" required>
         <small *ngIf="passwordControl?.errors?.minlength" id="passwordHelp" class="form-text text-muted">
           Password must be at least {{passwordControl?.errors?.minlength?.requiredLength}} characters long.
         </small>
       </div>
-      <button type="button" class="btn btn-primary" (click)="create()">
+      <button type="button" class="btn btn-primary" [disabled]="passwordControl?.errors" (click)="create()">
         <i class="fas fa-envelope-open"></i>&nbsp;&nbsp; Sign up with your email
       </button>
     </form>
