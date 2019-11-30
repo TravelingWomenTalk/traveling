@@ -1,25 +1,33 @@
-<h3>Login</h3>
-<form [formGroup]="loginForm">
-  <div class="form-group">
-    <label for="Email">Email address</label>
-    <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email"
-      formControlName="email" required>
+<div class="card col-md-6">
+  <div class="card-body">
+    <form [formGroup]="loginForm">
+      <div class="form-group">
+        <label for="Email">Email*</label>
+        <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email"
+          formControlName="email" required>
+      </div>
+      <div class="form-group">
+        <label for="Password">Password*</label>
+        <input type="password" class="form-control" placeholder="Password" formControlName="password" required>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="login()">
+        <i class="fas fa-envelope-open"></i>&nbsp;&nbsp; Log in with your email
+      </button>
+    </form>
   </div>
-  <div class="form-group">
-    <label for="Password">Password</label>
-    <input type="password" class="form-control" placeholder="Password" formControlName="password" required>
+</div>
+
+<div class="card col-md-6">
+  <div class="card-body">
+    <button class="btn btn-success" (click)="authService.googleSignin()">
+      <i class="fab fa-google"></i>&nbsp;&nbsp; Log in with Google
+    </button>
+    <br><br>
+    <button class="btn btn-success" (click)="authService.facebookSignin()">
+      <i class="fab fa-facebook-f"></i>&nbsp;&nbsp; Log in with Facebook
+    </button>
   </div>
-  <button type="button" class="btn btn-primary" (click)="login()">Submit</button>
-</form>
-<hr>
+</div>
 <br>
-<button class="btn btn-primary" (click)="authService.googleSignin()">
-  <i class="fab fa-google"></i>&nbsp;&nbsp; Log in with Google
-</button>
-<br><br>
-<button class="btn btn-primary" (click)="authService.facebookSignin()">
-  <i class="fab fa-facebook-f"></i>&nbsp;&nbsp; Log in with Facebook
-</button>
-<br><br>
 <div>New to Traveling Women Talk? <a routerLink="/signup">Sign up now <i class="fa fa-sm fa-angle-double-right"
       aria-hidden="true"></i></a></div>
