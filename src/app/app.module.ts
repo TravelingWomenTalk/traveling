@@ -22,6 +22,7 @@ import { ToastService } from './shared/services/toast.service';
 // Components
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { ToastsComponent } from './shared/components/toast/toast.component';
+import { ReadMoreComponent } from './shared/components/read-more/read-more.component';
 
 // User Interface
 import { TimeAgoPipe } from 'time-ago-pipe';
@@ -34,6 +35,7 @@ import { DateFormatPipe } from './shared/pipes/date-format.pipe';
     MainNavComponent,
     RoutingComponents,
     ToastsComponent,
+    ReadMoreComponent,
     TimeAgoPipe,
     DateFormatPipe
   ],

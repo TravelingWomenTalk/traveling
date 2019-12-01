@@ -1,17 +1,25 @@
-<h2>Reviews</h2>
-<hr>
 <div *ngFor="let review of reviews | async">
-  <h4 (click)='navigateDetails(review)'>{{review.location}}</h4>
-  <span (click)='navigateDetails(review)' class="font-italic">
-    <a [routerLink]="['/profile', review.user.uid]">{{review.user.displayName}}</a> on {{ review.travelDate.toDate() | dateFormat }}
-    <span *ngIf="review.lastEdited" class="font-weight-light font-italic text-muted">
-      &nbsp;edited {{review.lastEdited.toDate() | timeAgo}}</span>
-  </span>
-
-  <p (click)='navigateDetails(review)'>{{review.description}}</p>
-
-  <i (click)='shareReview(review)' class="fas fa-share-alt text-muted"></i>&nbsp;&nbsp;
-  <i (click)='editReview(review)' *ngIf='(authService.user$ | async)?.uid === review.user.uid' class="fas fa-pencil-alt text-muted"></i>&nbsp;&nbsp;
-  <i (click)='deleteReview(review)' *ngIf='(authService.user$ | async)?.uid === review.user.uid' class='fas fa-trash text-mute'></i>&nbsp;&nbsp;
-  <hr>
+  <div class="card">
+    <!--  (click)='navigateDetails(review)' -->
+    <div class="card-body">
+      <h5 class="card-title">{{review.location}}</h5>
+      <p class="card-text">
+        <small class="text-muted">
+          <a [routerLink]="['/profile', review.user.uid]">{{review.user.displayName}}</a> on
+          {{ review.travelDate.toDate() | dateFormat }}
+          <span *ngIf="review.lastEdited" class="font-weight-light font-italic text-muted">
+            &nbsp;edited {{review.lastEdited.toDate() | timeAgo}}
+          </span>
+        </small>
+      </p>
+      <p class="card-text"><app-read-more [text]="review.description" [maxLength]="100"></app-read-more></p>
+    </div>
+    <div class="card-body">
+        <i (click)='shareReview(review)' class="fas fa-lg fa-share-alt text-muted"></i>&nbsp;&nbsp;
+        <i (click)='editReview(review)' *ngIf='(authService.user$ | async)?.uid === review.user.uid'
+          class="fas fa-lg fa-pencil-alt text-muted"></i>&nbsp;&nbsp;
+        <i (click)='deleteReview(review)' *ngIf='(authService.user$ | async)?.uid === review.user.uid'
+          class='fas fa-lg fa-trash text-mute'></i>
+    </div>
+  </div>
 </div>
