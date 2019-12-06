@@ -1,4 +1,5 @@
-<h3>Create Review</h3>
+<h3 *ngIf="!isEdit">Write a Review</h3>
+<h3 *ngIf="isEdit && this.review">Edit your review of {{ this.review.location }}</h3>
 <div *ngIf="authService.user$ | async; then authenticated else guest">
   <!-- template will replace this div -->
 </div>
@@ -10,7 +11,7 @@
 
 <ng-template #authenticated>
   
-<form [formGroup]="reviewForm">
+<form *ngIf="reviewForm" [formGroup]="reviewForm">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="travelDateInput">Travel date</label>
@@ -38,8 +39,8 @@
       <label for="descriptionInput">Share your experiences at this place</label>
       <textarea class="form-control" id="descriptionInput" rows="3" formControlName="description" required></textarea>
     </div>
-    <button class="btn btn-primary" (click)="save()">Submit</button>
-    <button class="btn btn-link" (click)="cancel()">Cancel</button>
+    <button class="btn btn-primary" (click)="save()" type="button">Submit</button>
+    <button class="btn btn-link" (click)="cancel()" type="button">Cancel</button>
   </form>
 
 </ng-template>

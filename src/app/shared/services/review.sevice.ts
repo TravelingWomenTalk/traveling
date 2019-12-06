@@ -1,4 +1,4 @@
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { Review } from '../models/review.model';
 
@@ -10,8 +10,8 @@ export class ReviewService {
 
   constructor(private afs: AngularFirestore) { }
 
-  public get(id: string) {
-    return this.afs.collection(this.dbPath).doc(id).ref.get();
+  public get(id: string): AngularFirestoreDocument<Review> {
+    return this.afs.doc<Review>(this.dbPath + '/' + id);
   }
 
   public getAll(): AngularFirestoreCollection<Review> {
@@ -23,11 +23,11 @@ export class ReviewService {
     this.afs.collection(this.dbPath).add({ ...review });
   }
 
-  public update(id: string, value: any): Promise<void> {
-    return this.afs.collection(this.dbPath).doc(id).update(value);
+  public update(id: string, review: Review): Promise<void> {
+    return this.afs.doc<Review>(this.dbPath + '/' + id).update(review);
   }
 
   public delete(id: string): Promise<void> {
-    return this.afs.collection(this.dbPath).doc(id).delete();
+    return this.afs.doc<Review>(this.dbPath + '/' + id).delete();
   }
 }

@@ -1,18 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { Review } from 'src/app/shared/models/review.model';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Title } from '@angular/platform-browser';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { switchMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-review-form',
   templateUrl: './review-form.component.html',
   styleUrls: ['./review-form.component.scss']
 })
-export class ReviewFormComponent implements OnInit, OnDestroy {
+export class ReviewFormComponent implements OnInit {
   public reviewForm: FormGroup;
   public review: Review = {
     id: undefined,
@@ -27,7 +28,6 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
   public isEdit = false;
   public title = '';
   public id: string;
-  private subscription: any;
 
   constructor(
     private reviewService: ReviewService,
@@ -44,48 +44,25 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
 
     if (this.isEdit) {
       this.title = 'Edit review';
-      this.getReviewId()
-        .then(() => this.getReview())
-        .then(() => this.buildForm());
+      this.getReview();
     } else {
       this.title = 'Write a review';
+      this.buildForm();
     }
-
-    this.buildForm();
-  }
-
-  public ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  public getReviewId() {
-    const idParam = 'id';
-
-    return new Promise((resolve, reject) => {
-      this.subscription = this.route.params.subscribe(params => {
-        this.id = params[idParam];
-        resolve();
-      });
-    });
   }
 
   public getReview() {
-    return new Promise((resolve, reject) => {
-      this.reviewService.get(this.id).then((doc) => {
-        if (doc.exists) {
-          this.review = doc.data() as Review;
-          this.review.travelDate = doc.data().travelDate.toDate();
-          resolve();
-        } else {
-          console.log('No such document!');
-          reject();
-        }
-      }).catch((error) => {
-        console.log('Error getting document:', error);
-        reject();
-      });
+    //const idParam = 'id';
+    this.route.params.pipe(
+      switchMap((params: Params) => {
+        this.id = params['id'];
+        return this.reviewService.get(this.id).valueChanges();
+      })
+    ).subscribe((document: any) => {
+        this.review = document;
+        this.review.travelDate = document.travelDate.toDate();
+
+        this.buildForm();
     });
   }
 
