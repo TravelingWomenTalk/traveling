@@ -32,19 +32,19 @@ export class AuthService {
     );
   }
 
-  public async emailCreate(email: string, password: string) {
+  public async emailCreate(email: string, password: string): Promise<void> {
     const credential = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
     this.toastService.show('Successfully signed up. Welcome!', { classname: 'bg-success text-light', delay: 2000 });
     return this.updateUserData(credential.user);
   }
 
-  public async emailLogin(email: string, password: string) {
+  public async emailLogin(email: string, password: string): Promise<void> {
     const credential = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
     this.toastService.show('Successfully signed in', { classname: 'bg-success text-light', delay: 2000 });
     return this.updateUserData(credential.user);
   }
 
-  public async googleSignin() {
+  public async googleSignin(): Promise<void> {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider)
       .then((cred) => {
@@ -59,7 +59,7 @@ export class AuthService {
     return credential;
   }
 
-  public async facebookSignin() {
+  public async facebookSignin(): Promise<void> {
     const provider = new auth.FacebookAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider)
       .then((cred) => {
@@ -74,11 +74,11 @@ export class AuthService {
     return credential;
   }
 
-  public getUserByUserId(id: string) {
-    return this.afs.collection('user').doc(id).ref.get();
+  public getUserByUserId(id: string): AngularFirestoreDocument<User> {
+    return this.afs.doc<User>('/users/' + id);
   }
 
-  private updateUserData(user) {
+  private updateUserData(user: User): Promise<void> {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
 
@@ -93,7 +93,7 @@ export class AuthService {
     return userRef.set(data, { merge: true });
   }
 
-  public async signOut() {
+  public async signOut(): Promise<void> {
     await this.afAuth.auth.signOut();
 
     this.toastService.show('Signed out', { classname: 'bg-success text-light', delay: 2000 });

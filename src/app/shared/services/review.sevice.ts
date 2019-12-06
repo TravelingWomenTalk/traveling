@@ -6,7 +6,7 @@ import { Review } from '../models/review.model';
   providedIn: 'root'
 })
 export class ReviewService {
-  private dbPath = '/reviews';
+  private dbPath: string = '/reviews';
 
   constructor(private afs: AngularFirestore) { }
 

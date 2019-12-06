@@ -6,10 +6,10 @@ import { Component, Input, ElementRef, OnChanges, OnInit } from '@angular/core';
 })
 export class ReadMoreComponent implements OnInit, OnChanges {
     @Input() public text: string;
-    @Input() public maxLength = 100;
+    @Input() public maxLength: number = 100;
     public currentText: string;
-    public isHidden = true;
-    public isCollapsed = true;
+    public isHidden: boolean = true;
+    public isCollapsed: boolean = true;
 
     constructor(private elementRef: ElementRef) { }
 

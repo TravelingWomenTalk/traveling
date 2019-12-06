@@ -25,8 +25,8 @@ export class ReviewFormComponent implements OnInit {
     rating: undefined,
     description: undefined
   };
-  public isEdit = false;
-  public title = '';
+  public isEdit: boolean = false;
+  public title: string = '';
   public id: string;
 
   constructor(
@@ -39,7 +39,7 @@ export class ReviewFormComponent implements OnInit {
     this.titleService.setTitle('Travelng Women Talk | Write');
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.isEdit = this.route.routeConfig.path.substr(this.route.routeConfig.path.length - 5) === '/edit';
 
     if (this.isEdit) {
@@ -51,8 +51,7 @@ export class ReviewFormComponent implements OnInit {
     }
   }
 
-  public getReview() {
-    //const idParam = 'id';
+  public getReview(): void {
     this.route.params.pipe(
       switchMap((params: Params) => {
         this.id = params['id'];
@@ -66,7 +65,7 @@ export class ReviewFormComponent implements OnInit {
     });
   }
 
-  public buildForm() {
+  public buildForm(): void {
     this.reviewForm = new FormGroup({
       travelDate: new FormControl(this.review.travelDate),
       location: new FormControl(this.review.location),
@@ -75,7 +74,7 @@ export class ReviewFormComponent implements OnInit {
     });
   }
 
-  public save() {
+  public save(): void {
     this.review = this.reviewForm.getRawValue();
 
     if (this.isEdit) {
@@ -94,7 +93,7 @@ export class ReviewFormComponent implements OnInit {
     this.router.navigate(['/reviews']);
   }
 
-  public cancel() {
+  public cancel(): void {
     this.router.navigate(['/reviews']);
   }
 }

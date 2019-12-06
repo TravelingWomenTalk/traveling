@@ -22,12 +22,11 @@ export class ReviewDetailComponent implements OnInit {
     private reviewService: ReviewService,
     private titleService: Title) { }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.getReview();
   }
 
-  public getReview() {
-    //const idParam = 'id';
+  public getReview(): void {
     this.route.params.pipe(
       map((params: Params) => {
         this.id = params['id'];
@@ -40,7 +39,7 @@ export class ReviewDetailComponent implements OnInit {
     });
   }
 
-  public deleteReview() {
+  public deleteReview(): void {
     this.reviewService.delete(this.review.id)
       .catch(err => console.log(err));
 

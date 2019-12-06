@@ -8,13 +8,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./main-nav.component.css']
 })
 export class MainNavComponent {
-  public isNavbarCollapsed = true;
+  public isNavbarCollapsed: boolean = true;
 
   constructor(
     public authService: AuthService,
     public router: Router) { }
 
-  public navigateProfile() {
+  public navigateProfile(): void {
     this.authService.user$.subscribe((user) => {
       this.router.navigate(['profile', user.uid]);
     });

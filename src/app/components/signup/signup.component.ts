@@ -20,18 +20,18 @@ export class SignupComponent implements OnInit {
     this.titleService.setTitle('Travelng Women Talk | Sign up');
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.buildForm();
   }
 
-  public buildForm() {
+  public buildForm(): void {
     this.signupForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)])
     });
   }
 
-  public create() {
+  public create(): void {
     if (this.signupForm.valid) {
       this.authService.emailCreate(this.signupForm.getRawValue().email, this.signupForm.getRawValue().password);
       this.router.navigate(['/reviews']);

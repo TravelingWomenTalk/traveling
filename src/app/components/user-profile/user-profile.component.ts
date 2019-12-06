@@ -15,6 +15,6 @@ export class UserProfileComponent implements OnInit {
     this.titleService.setTitle('Travelng Women Talk | Profile');
   }
 
-  public ngOnInit() { }
+  public ngOnInit(): void { }
 
 }
