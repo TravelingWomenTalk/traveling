@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
-import { User } from 'firebase';
+import { User } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-main-nav',
@@ -10,7 +10,7 @@ import { User } from 'firebase';
 })
 export class MainNavComponent implements OnInit {
   public isNavbarCollapsed: boolean = true;
-  public user: any;
+  public user: User;
 
   constructor(
     public authService: AuthService,
