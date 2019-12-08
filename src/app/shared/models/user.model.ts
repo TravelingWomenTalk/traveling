@@ -3,6 +3,7 @@ export interface User {
   email: string;
   photoURL?: string;
   displayName?: string;
-  myCustomData?: string;
+  createdDate?: Date;
   isAdmin?: boolean;
+  gender?: string;
 }

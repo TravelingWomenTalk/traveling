@@ -2,8 +2,8 @@
   <a routerLink="/reviews" class="navbar-brand brand">
     TravelingWomenTalk
   </a>
-  <button class="navbar-toggler hidden-sm-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-target="#navbarCollapse"
-    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler hidden-sm-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed"
+    data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarCollapse">
@@ -17,16 +17,19 @@
       <li [routerLinkActive]="['active']" class="nav-item">
         <a routerLink="/about" class="nav-link">About</a>
       </li>
-      <li [routerLinkActive]="['active']" class="nav-item">
-        <a routerLink="/profile" class="nav-link">Profile</a>
+      <li *ngIf="user" [routerLinkActive]="['active']" class="nav-item">
+        <a [routerLink]="['/profile', user?.uid]" class="nav-link">Profile</a>
       </li>
-      <li *ngIf="!isNavbarCollapsed && !(authService.user$ | async) as user" [routerLinkActive]="['active']" class="nav-item">
+      <li *ngIf="!isNavbarCollapsed && !(authService.user$ | async) as user" [routerLinkActive]="['active']"
+        class="nav-item">
         <a routerLink="/login" class="nav-link">Login</a>
       </li>
-      <li *ngIf="!isNavbarCollapsed && !(authService.user$ | async) as user" [routerLinkActive]="['active']" class="nav-item">
+      <li *ngIf="!isNavbarCollapsed && !(authService.user$ | async) as user" [routerLinkActive]="['active']"
+        class="nav-item">
         <a routerLink="/signup" class="nav-link">Signup</a>
       </li>
-      <li *ngIf="!isNavbarCollapsed && authService.user$ | async as user" [routerLinkActive]="['active']" class="nav-item">
+      <li *ngIf="!isNavbarCollapsed && authService.user$ | async as user" [routerLinkActive]="['active']"
+        class="nav-item">
         <a routerLink="/reviews" (click)="authService.signOut()" class="nav-link">Logout</a>
       </li>
     </ul>
@@ -68,8 +71,8 @@
 
 <!-- User logged in -->
 <ng-template #authenticated>
-  <span *ngIf="authService.user$ | async as user">
-    <a routerLink="/profile" class="dropdown-item">Profile</a>
+  <span *ngIf="user">
+    <a [routerLink]="['/profile', user?.uid]" class="dropdown-item">Profile</a>
     <a routerLink="/reviews" (click)="authService.signOut()" class="dropdown-item">Logout</a>
   </span>
 </ng-template>

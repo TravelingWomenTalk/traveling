@@ -1,40 +1,37 @@
-<h3>Signup</h3>
-<form [formGroup]="signupForm">
-  <div class="form-group">
-    <label for="Email">Email address</label>
-    <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email"
-      formControlName="email" required>
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    <div *ngIf="emailControl?.invalid && emailControl?.touched" class="alert alert-danger">
-      <div *ngIf="emailControl?.errors.required">
-        Email is required.
+<div class="card col-md-6">
+  <div class="card-body">
+    <form [formGroup]="signupForm">
+      <div class="form-group">
+        <label for="Email">Email*</label>
+        <input type="email" class="form-control"
+          [ngClass]="{'is-invalid': emailControl?.invalid, 'is-valid': !emailControl?.invalid}"
+          aria-describedby="emailHelp" placeholder="Enter email" formControlName="email" required>
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
       </div>
-      <div *ngIf="emailControl?.errors.email">
-        Must be a valid email.
-      </div>
-    </div>
-  </div>
 
-  <div class="form-group">
-    <label for="Password">Password</label>
-    <input type="password" class="form-control" placeholder="Password" formControlName="password" required>
-    <div *ngIf="passwordControl?.invalid && passwordControl?.touched" class="alert alert-danger">
-      <div *ngIf="passwordControl?.errors?.required">
-        Name is required.
+      <div class="form-group">
+        <label for="Password">Password*</label>
+        <input type="password" class="form-control"
+          [ngClass]="{'is-invalid': passwordControl?.invalid, 'is-valid': !passwordControl?.invalid}"
+          aria-describedby="passwordHelp" placeholder="Password" formControlName="password" required>
+        <small *ngIf="passwordControl?.errors?.minlength" id="passwordHelp" class="form-text text-muted">
+          Password must be at least {{passwordControl?.errors?.minlength?.requiredLength}} characters long.
+        </small>
       </div>
-      <div *ngIf="passwordControl?.errors?.minlength">
-        Name must be at least {{passwordControl?.errors?.minlength.requiredLength}} characters long.
-      </div>
-    </div>
+      <button type="button" class="btn btn-primary" [disabled]="passwordControl?.errors" (click)="create()">
+        <i class="fas fa-envelope-open"></i>&nbsp;&nbsp; Sign up with your email
+      </button>
+    </form>
   </div>
-  <button type="button" class="btn btn-primary" (click)="create()">Submit</button>
-</form>
-
-<br>
-<button class="btn btn-primary" (click)="authService.googleSignin()">
-  <i class="fab fa-google"></i>&nbsp;&nbsp; Sign up with Google
-</button>
-<br><br>
-<button class="btn btn-primary" (click)="authService.facebookSignin()">
-  <i class="fab fa-facebook-f"></i>&nbsp;&nbsp; Sign up with Facebook
-</button>
+</div>
+<div class="card col-md-6">
+  <div class="card-body">
+    <button class="btn btn-success" (click)="authService.googleSignin()">
+      <i class="fab fa-google"></i>&nbsp;&nbsp; Sign up with Google
+    </button>
+    <br><br>
+    <button class="btn btn-success" (click)="authService.facebookSignin()">
+      <i class="fab fa-facebook-f"></i>&nbsp;&nbsp; Sign up with Facebook
+    </button>
+  </div>
+</div>

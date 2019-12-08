@@ -1,6 +1,8 @@
+import { User } from './user.model';
+
 export interface Review {
     id: string;
-    userId: string;
+    user: User;
     createdDate: Date;
     lastEdited?: Date;
     travelDate: Date;

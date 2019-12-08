@@ -22,10 +22,12 @@ import { ToastService } from './shared/services/toast.service';
 // Components
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { ToastsComponent } from './shared/components/toast/toast.component';
+import { ReadMoreComponent } from './shared/components/read-more/read-more.component';
 
 // User Interface
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { NgbModule, NgbDatepickerModule, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { NgbModule, NgbDatepickerModule, NgbDateAdapter, NgbDateNativeAdapter } 
     MainNavComponent,
     RoutingComponents,
     ToastsComponent,
-    TimeAgoPipe
+    ReadMoreComponent,
+    TimeAgoPipe,
+    DateFormatPipe
   ],
   imports: [
     BrowserModule,

@@ -26,11 +26,11 @@ export class ReviewListComponent implements OnInit {
     this.titleService.setTitle('Travelng Women Talk | Reviews');
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.getAllReviews();
   }
 
-  public getAllReviews() {
+  public getAllReviews(): void {
     this.reviews = this.reviewService.getAll().snapshotChanges().pipe(
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as Review;
@@ -40,17 +40,17 @@ export class ReviewListComponent implements OnInit {
     );
   }
 
-  public navigateDetails(review: Review) {
+  public navigateDetails(review: Review): void {
     this.router.navigate(['review', review.id]);
   }
 
-  public shareReview(review: Review) {
+  public shareReview(review: Review): void {
     this.toastService.show('Shared review!', { classname: 'bg-success text-light', delay: 2000 });
   }
 
-  public editReview(review: Review) {
+  public editReview(review: Review): void {
     this.authService.user$.subscribe((user) => {
-      if (user.uid === review.userId) {
+      if (user.uid === review.user.uid) {
         this.router.navigate(['review', review.id, 'edit']);
       } else {
         this.toastService.show('You cannot edit a review you did not write.', { classname: 'bg-danger text-light', delay: 2000 });
@@ -58,9 +58,9 @@ export class ReviewListComponent implements OnInit {
     });
   }
 
-  public deleteReview(review: Review) {
+  public deleteReview(review: Review): void {
     this.authService.user$.subscribe((user) => {
-      if (user.uid === review.userId) {
+      if (user.uid === review.user.uid) {
         this.reviewService.delete(review.id);
         this.toastService.show('Review deleted', { classname: 'bg-success text-light', delay: 2000 });
       } else {

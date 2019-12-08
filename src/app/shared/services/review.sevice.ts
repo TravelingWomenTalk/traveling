@@ -1,4 +1,4 @@
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { Review } from '../models/review.model';
 
@@ -6,27 +6,34 @@ import { Review } from '../models/review.model';
   providedIn: 'root'
 })
 export class ReviewService {
-  private dbPath = '/reviews';
+  private dbPath: string = '/reviews';
 
   constructor(private afs: AngularFirestore) { }
 
-  public get(id: string) {
-    return this.afs.collection(this.dbPath).doc(id).ref.get();
+  public get(id: string): AngularFirestoreDocument<Review> {
+    return this.afs.doc<Review>(this.dbPath + '/' + id);
+  }
+
+  public getByUserId(id: string): AngularFirestoreCollection<Review> {
+    return this.afs.collection<Review>(this.dbPath, ref =>
+      ref.where('user.uid', '==', id).orderBy('createdDate')
+    );
   }
 
   public getAll(): AngularFirestoreCollection<Review> {
-    return this.afs.collection<Review>(this.dbPath);
+    return this.afs.collection<Review>(this.dbPath, ref =>
+      ref.orderBy('createdDate'));
   }
 
   public create(review: Review): void {
     this.afs.collection(this.dbPath).add({ ...review });
   }
 
-  public update(id: string, value: any): Promise<void> {
-    return this.afs.collection(this.dbPath).doc(id).update(value);
+  public update(id: string, review: Review): Promise<void> {
+    return this.afs.doc<Review>(this.dbPath + '/' + id).update(review);
   }
 
   public delete(id: string): Promise<void> {
-    return this.afs.collection(this.dbPath).doc(id).delete();
+    return this.afs.doc<Review>(this.dbPath + '/' + id).delete();
   }
 }
