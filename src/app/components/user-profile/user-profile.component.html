@@ -5,7 +5,7 @@
   <button *ngIf="user && (authService.user$ | async)?.uid === user.uid" class="btn btn-success">Edit profile</button>
 </div>
 
- <div *ngIf="user && (authService.user$ | async)?.uid === user.uid && reviews.length === 0" class="card">
+ <div *ngIf="user && (authService.user$ | async)?.uid === user.uid && reviews?.length === 0" class="card">
     <div class="card-body">
       No reviews found here.
     </div>
