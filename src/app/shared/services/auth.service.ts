@@ -79,18 +79,17 @@ export class AuthService {
   }
 
   private updateUserData(user: User): Promise<void> {
-    // Sets user data to firestore on login
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
 
-    const data = {
+    const data: User = {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
+      createdDate: new Date(),
       photoURL: user.photoURL,
       isAdmin: false
     };
 
-    return userRef.set(data, { merge: true });
+    return this.afs.doc(`users/${user.uid}`).set(data, { merge: true });
   }
 
   public async signOut(): Promise<void> {

@@ -14,6 +14,12 @@ export class ReviewService {
     return this.afs.doc<Review>(this.dbPath + '/' + id);
   }
 
+  public getByUserId(id: string): AngularFirestoreCollection<Review> {
+    return this.afs.collection<Review>(this.dbPath, ref =>
+      ref.where('user.uid', '==', id).orderBy('createdDate')
+    );
+  }
+
   public getAll(): AngularFirestoreCollection<Review> {
     return this.afs.collection<Review>(this.dbPath, ref =>
       ref.orderBy('createdDate'));

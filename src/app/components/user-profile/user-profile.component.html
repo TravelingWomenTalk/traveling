@@ -1,18 +1,40 @@
-<div *ngIf="authService.user$ | async; then authenticated else guest">
-  <!-- template will replace this div -->
+<div *ngIf="user" class="jumbotron">
+  <img *ngIf="user?.photoURL" [src]="user?.photoURL" alt="profile picture" class="img-fluid img-thumbnail rounded float-right" width="20%">
+  <h1>{{ user?.displayName }}</h1>
+  <p><i class="fas fa-calendar-day"></i> Joined {{ user.createdDate?.toDate() | dateFormat }}</p>
+  <button *ngIf="user && (authService.user$ | async)?.uid === user.uid" class="btn btn-success">Edit profile</button>
 </div>
 
-<ng-template #guest>
-  <h3>Howdy!</h3>
-  <div><a routerLink="/login">Log in to see your profile <i class="fa fa-sm fa-angle-double-right"
-        aria-hidden="true"></i></a></div>
-</ng-template>
+ <div *ngIf="user && (authService.user$ | async)?.uid === user.uid && reviews.length === 0" class="card">
+    <div class="card-body">
+      No reviews found here.
+    </div>
+ </div>
 
-<ng-template #authenticated>
-  <div *ngIf="authService.user$ | async as user">
-    <h3>Howdy, {{ user.displayName }}</h3>
-    <img [src]="user.photoURL">
-    <p>UID: {{ user.uid }}</p>
-    <button (click)="authService.signOut()">Logout</button>
+<div *ngFor="let review of reviews">
+  <div class="card">
+    <!--  (click)='navigateDetails(review)' -->
+    <div class="card-body">
+      <h5 class="card-title">{{review.location}}</h5>
+      <p class="card-text">
+        <small class="text-muted">
+          <a [routerLink]="['/profile', review.user.uid]">{{review.user.displayName}}</a> on
+          {{ review.travelDate.toDate() | dateFormat }}
+          <span *ngIf="review.lastEdited" class="font-weight-light font-italic text-muted">
+            &nbsp;edited {{review.lastEdited.toDate() | timeAgo}}
+          </span>
+        </small>
+      </p>
+      <p class="card-text">
+        <app-read-more [text]="review.description" [maxLength]="100"></app-read-more>
+      </p>
+    </div>
+    <div class="card-body">
+      <i (click)='shareReview(review)' class="fas fa-lg fa-share-alt text-muted"></i>&nbsp;&nbsp;
+      <i (click)='editReview(review)' *ngIf='(authService.user$ | async)?.uid === review.user.uid'
+        class="fas fa-lg fa-pencil-alt text-muted"></i>&nbsp;&nbsp;
+      <i (click)='deleteReview(review)' *ngIf='(authService.user$ | async)?.uid === review.user.uid'
+        class='fas fa-lg fa-trash text-mute'></i>
+    </div>
   </div>
-</ng-template>
+</div>

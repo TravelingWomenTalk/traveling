@@ -10,17 +10,18 @@
 </ng-template>
 
 <ng-template #authenticated>
-  
-<form *ngIf="reviewForm" [formGroup]="reviewForm">
+
+  <form *ngIf="reviewForm" [formGroup]="reviewForm">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="travelDateInput">Travel date</label>
         <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd" name="datepicker" formControlName="travelDate" id="travelDateInput"
-            ngbDatepicker #d="ngbDatepicker" required>
+          <input class="form-control" placeholder="yyyy-mm-dd" name="datepicker" formControlName="travelDate"
+            id="travelDateInput" ngbDatepicker #d="ngbDatepicker" required>
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"><i
-                class="fas fa-calendar-day"></i></button>
+            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+              <i class="fas fa-calendar-day"></i>
+            </button>
           </div>
         </div>
       </div>
