@@ -4,22 +4,36 @@
     <div class="card-body">
       <h5 class="card-title">{{review.location}}</h5>
       <p class="card-text">
-        <small class="text-muted">
-          <a [routerLink]="['/profile', review.user.uid]">{{review.user.displayName}}</a> on
-          {{ review.travelDate.toDate() | dateFormat }}
-          <span *ngIf="review.lastEdited" class="font-weight-light font-italic text-muted">
-            &nbsp;edited {{review.lastEdited.toDate() | timeAgo}}
+        <span class="text-muted">
+          <small><a [routerLink]="['/profile', review.user.uid]">{{review.user.displayName}}</a>&nbsp;&nbsp;</small>
+          <span *ngIf="user?.gender === 'male'">
+            <i class="fas fa-lg fa-mars" style="color:blue;"></i>
           </span>
-        </small>
+          <span *ngIf="user?.gender === 'female'">
+            <i class="fas fa-lg fa-venus" style="color:pink;"></i>
+          </span>
+          <span *ngIf="!user?.gender || user?.gender === 'other'">
+            <i class="fas fa-lg fa-genderless" style="color:yellow;"></i>
+          </span>
+          <br>
+          <small>
+            {{ review.travelDate.toDate() | dateFormat }}
+            <span *ngIf="review.lastEdited" class="font-weight-light font-italic text-muted">
+              &nbsp;edited {{review.lastEdited.toDate() | timeAgo}}
+            </span>
+          </small>
+        </span>
       </p>
-      <p class="card-text"><app-read-more [text]="review.description" [maxLength]="100"></app-read-more></p>
+      <p class="card-text">
+        <app-read-more [text]="review.description" [maxLength]="100"></app-read-more>
+      </p>
     </div>
     <div class="card-body">
-        <i (click)='shareReview(review)' class="fas fa-lg fa-share-alt text-muted"></i>&nbsp;&nbsp;
-        <i (click)='editReview(review)' *ngIf='(authService.user$ | async)?.uid === review.user.uid'
-          class="fas fa-lg fa-pencil-alt text-muted"></i>&nbsp;&nbsp;
-        <i (click)='deleteReview(review)' *ngIf='(authService.user$ | async)?.uid === review.user.uid'
-          class='fas fa-lg fa-trash text-mute'></i>
+      <i (click)='shareReview(review)' class="fas fa-lg fa-share-alt text-muted"></i>&nbsp;&nbsp;
+      <i (click)='editReview(review)' *ngIf='(authService.user$ | async)?.uid === review.user.uid'
+        class="fas fa-lg fa-pencil-alt text-muted"></i>&nbsp;&nbsp;
+      <i (click)='deleteReview(review)' *ngIf='(authService.user$ | async)?.uid === review.user.uid'
+        class='fas fa-lg fa-trash text-mute'></i>
     </div>
   </div>
 </div>
