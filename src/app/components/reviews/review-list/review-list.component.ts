@@ -7,6 +7,7 @@ import { Title } from '@angular/platform-browser';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Observable } from 'rxjs';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-list',
@@ -20,6 +21,7 @@ export class ReviewListComponent implements OnInit {
   constructor(
     public toastService: ToastService,
     private reviewService: ReviewService,
+    private modalService: NgbModal,
     private router: Router,
     private authService: AuthService,
     private titleService: Title) {
@@ -66,6 +68,16 @@ export class ReviewListComponent implements OnInit {
       } else {
         this.toastService.show('You cannot delete a review that isn\'t yours.', { classname: 'bg-danger text-light', delay: 2000 });
       }
+    });
+  }
+
+  public confirmDelete(content: NgbModalRef<any>, review: Review): void {
+    this.modalService.open(content, {ariaLabelledBy: 'delete-confirm-modal', keyboard: true }).result.then((result) => {
+      if (result === 'delete') {
+        this.deleteReview(review);
+      }
+    }, () => {
+      return;
     });
   }
 }

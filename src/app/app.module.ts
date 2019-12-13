@@ -26,7 +26,7 @@ import { ReadMoreComponent } from './shared/components/read-more/read-more.compo
 
 // User Interface
 import { TimeAgoPipe } from 'time-ago-pipe';
-import { NgbModule, NgbDatepickerModule, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDatepickerModule, NgbDateAdapter, NgbDateNativeAdapter, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 
 @NgModule({
@@ -50,7 +50,8 @@ import { DateFormatPipe } from './shared/pipes/date-format.pipe';
     AppRoutingModule,
     BrowserAnimationsModule,
     NgbModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    NgbModalModule
   ],
   providers: [
     {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter},
