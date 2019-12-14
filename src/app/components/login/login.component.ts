@@ -33,8 +33,6 @@ export class LoginComponent implements OnInit {
 
   public login(email: string, password: string): void {
     this.authService.emailLogin(this.loginForm.getRawValue().email, this.loginForm.getRawValue().password);
-
-    this.router.navigate(['/reviews']);
   }
 
   public get emailControl(): AbstractControl {

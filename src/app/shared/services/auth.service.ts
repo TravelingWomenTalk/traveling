@@ -20,7 +20,18 @@ export class AuthService {
     private router: Router,
     public toastService: ToastService
   ) {
-    // Get the auth state, then fetch the Firestore user document or return null
+    this.user$ = this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+        } else {
+          return of(null);
+        }
+      })
+    );
+  }
+
+  public getAuthState(): void {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
@@ -34,15 +45,23 @@ export class AuthService {
 
   public async emailCreate(email: string, password: string, user: User): Promise<void> {
     const credential = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
-    this.toastService.show('Successfully signed up. Welcome!', { classname: 'bg-success text-light', delay: 2000 });
+    this.toastService.show('Successfully signed up. Welcome!', { classname: 'bg-success text-light', delay: 4000 });
     user.uid = credential.user.uid;
     return this.updateUserData(user);
   }
 
   public async emailLogin(email: string, password: string): Promise<void> {
-    const credential = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
-    this.toastService.show('Successfully signed in', { classname: 'bg-success text-light', delay: 2000 });
-    return this.updateUserData(credential.user);
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
+    .then((credential) => {
+      this.updateUserData(credential.user);
+      this.router.navigate(['/reviews']);
+    })
+    .catch(error => {
+      this.toastService.show(error.message, { classname: 'bg-success text-light', delay: 4000 });
+    });
+      // const credential = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+      // this.toastService.show('Successfully signed in', { classname: 'bg-success text-light', delay: 4000 });
+      // return this.updateUserData(credential.user);
   }
 
   public async googleSignin(): Promise<void> {
@@ -50,11 +69,11 @@ export class AuthService {
     const credential = await this.afAuth.auth.signInWithPopup(provider)
       .then((cred) => {
         this.updateUserData(cred.user);
-        this.toastService.show('Successfully signed in with Google', { classname: 'bg-success text-light', delay: 2000 });
+        this.toastService.show('Successfully signed in with Google', { classname: 'bg-success text-light', delay: 4000 });
         this.router.navigate(['/reviews']);
       })
       .catch((err) => {
-        this.toastService.show('Something went wrong', { classname: 'bg-danger text-light', delay: 2000 });
+        this.toastService.show('Something went wrong', { classname: 'bg-danger text-light', delay: 4000 });
         console.log(err);
       });
     return credential;
@@ -65,11 +84,11 @@ export class AuthService {
     const credential = await this.afAuth.auth.signInWithPopup(provider)
       .then((cred) => {
         this.updateUserData(cred.user);
-        this.toastService.show('Successfully signed in with Facebook', { classname: 'bg-success text-light', delay: 2000 });
+        this.toastService.show('Successfully signed in with Facebook', { classname: 'bg-success text-light', delay: 4000 });
         this.router.navigate(['/reviews']);
       })
       .catch((err) => {
-        this.toastService.show('Something went wrong', { classname: 'bg-danger text-light', delay: 2000 });
+        this.toastService.show('Something went wrong', { classname: 'bg-danger text-light', delay: 4000 });
         console.log(err);
       });
     return credential;
@@ -92,7 +111,7 @@ export class AuthService {
       status: user.status || null,
       accomplice: user.accomplice || null,
       interest: user.interest || null,
-      destination: user.destination
+      destination: user.destination || null
     };
 
     return this.afs.doc(`users/${user.uid}`).set(data, { merge: true });

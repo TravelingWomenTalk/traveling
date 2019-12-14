@@ -1,6 +1,7 @@
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { Review } from '../models/review.model';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,10 @@ import { Review } from '../models/review.model';
 export class ReviewService {
   private dbPath: string = '/reviews';
 
-  constructor(private afs: AngularFirestore) { }
+  constructor(
+    private afs: AngularFirestore,
+    public toastService: ToastService
+  ) { }
 
   public get(id: string): AngularFirestoreDocument<Review> {
     return this.afs.doc<Review>(this.dbPath + '/' + id);
