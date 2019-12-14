@@ -32,10 +32,11 @@ export class AuthService {
     );
   }
 
-  public async emailCreate(email: string, password: string): Promise<void> {
+  public async emailCreate(email: string, password: string, user: User): Promise<void> {
     const credential = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
     this.toastService.show('Successfully signed up. Welcome!', { classname: 'bg-success text-light', delay: 2000 });
-    return this.updateUserData(credential.user);
+    user.uid = credential.user.uid;
+    return this.updateUserData(user);
   }
 
   public async emailLogin(email: string, password: string): Promise<void> {
@@ -79,14 +80,19 @@ export class AuthService {
   }
 
   private updateUserData(user: User): Promise<void> {
-
     const data: User = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
+      displayName: user.displayName || null,
       createdDate: new Date(),
-      photoURL: user.photoURL,
-      isAdmin: false
+      photoURL: user.photoURL || null,
+      isAdmin: false,
+      gender: user.gender || null,
+      age: user.age || null,
+      status: user.status || null,
+      accomplice: user.accomplice || null,
+      interest: user.interest || null,
+      destination: user.destination
     };
 
     return this.afs.doc(`users/${user.uid}`).set(data, { merge: true });

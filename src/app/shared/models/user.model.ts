@@ -6,4 +6,11 @@ export interface User {
   createdDate?: Date;
   isAdmin?: boolean;
   gender?: string;
+
+  // private
+  age?: number;
+  status?: string;
+  accomplice?: string;
+  interest?: string;
+  destination?: string;
 }

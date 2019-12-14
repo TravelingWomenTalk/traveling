@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { User } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-signup',
@@ -32,7 +33,12 @@ export class SignupComponent implements OnInit {
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       password2: new FormControl('', [Validators.required, Validators.minLength(6)]),
       displayName: new FormControl('', [Validators.required]),
-      gender: new FormControl('', [Validators.required])
+      gender: new FormControl('', [Validators.required]),
+      age: new FormControl('', [Validators.required]),
+      status: new FormControl('', [Validators.required]),
+      accomplice: new FormControl('', [Validators.required]),
+      interest: new FormControl('', [Validators.required]),
+      destination: new FormControl('', [Validators.required])
     });
   }
 
@@ -42,7 +48,7 @@ export class SignupComponent implements OnInit {
       return;
     }
     if (this.signupForm.valid) {
-      this.authService.emailCreate(this.signupForm.getRawValue().email, this.signupForm.getRawValue().password);
+      this.authService.emailCreate(this.signupForm.getRawValue().email, this.signupForm.getRawValue().password, this.signupForm.getRawValue() as User);
       this.router.navigate(['/reviews']);
     }
   }
@@ -65,6 +71,26 @@ export class SignupComponent implements OnInit {
 
   public get genderControl(): AbstractControl {
     return this.signupForm.get('gender');
+  }
+
+  public get ageControl(): AbstractControl {
+    return this.signupForm.get('age');
+  }
+
+  public get statusControl(): AbstractControl {
+    return this.signupForm.get('status');
+  }
+
+  public get accompliceControl(): AbstractControl {
+    return this.signupForm.get('accomplice');
+  }
+
+  public get interestControl(): AbstractControl {
+    return this.signupForm.get('interest');
+  }
+
+  public get destinationControl(): AbstractControl {
+    return this.signupForm.get('destination');
   }
 
 }

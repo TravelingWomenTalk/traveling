@@ -6,13 +6,13 @@
       <p class="card-text">
         <span class="text-muted">
           <small><a [routerLink]="['/profile', review.user.uid]">{{review.user.displayName}}</a>&nbsp;&nbsp;</small>
-          <span *ngIf="user?.gender === 'male'">
+          <span *ngIf="review?.user?.gender === 'male'">
             <i class="fas fa-lg fa-mars" style="color:blue;"></i>
           </span>
-          <span *ngIf="user?.gender === 'female'">
+          <span *ngIf="review?.user?.gender === 'female'">
             <i class="fas fa-lg fa-venus" style="color:pink;"></i>
           </span>
-          <span *ngIf="!user?.gender || user?.gender === 'other'">
+          <span *ngIf="!review?.user?.gender || user?.gender === 'other'">
             <i class="fas fa-lg fa-genderless" style="color:yellow;"></i>
           </span>
           <br>
