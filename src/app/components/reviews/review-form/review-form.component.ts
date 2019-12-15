@@ -87,10 +87,6 @@ export class ReviewFormComponent implements OnInit {
         this.reviewService.create(this.review);
       });
     }
-
-    this.toastService.show('Review saved', { classname: 'bg-success text-light', delay: 4000 });
-
-    this.router.navigate(['/reviews']);
   }
 
   public cancel(): void {

@@ -48,8 +48,11 @@ export class SignupComponent implements OnInit {
       return;
     }
     if (this.signupForm.valid) {
-      this.authService.emailCreate(this.signupForm.getRawValue().email, this.signupForm.getRawValue().password, this.signupForm.getRawValue() as User);
-      this.router.navigate(['/reviews']);
+      this.authService.emailCreate(
+        this.signupForm.getRawValue().email,
+        this.signupForm.getRawValue().password,
+        this.signupForm.getRawValue() as User
+      );
     }
   }
 

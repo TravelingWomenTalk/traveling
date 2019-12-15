@@ -44,24 +44,28 @@ export class AuthService {
   }
 
   public async emailCreate(email: string, password: string, user: User): Promise<void> {
-    const credential = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
-    this.toastService.show('Successfully signed up. Welcome!', { classname: 'bg-success text-light', delay: 4000 });
-    user.uid = credential.user.uid;
-    return this.updateUserData(user);
+    return await this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+    .then((credential) => {
+      this.toastService.show('Successfully signed up. Welcome!', { classname: 'bg-success text-light', delay: 4000 });
+      user.uid = credential.user.uid;
+      this.updateUserData(user);
+      this.router.navigate(['/reviews']);
+    })
+    .catch(error => {
+      this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
+    });
   }
 
   public async emailLogin(email: string, password: string): Promise<void> {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
     .then((credential) => {
       this.updateUserData(credential.user);
+      this.toastService.show('Signed in as ' + email, { classname: 'bg-success text-light', delay: 4000 });
       this.router.navigate(['/reviews']);
     })
     .catch(error => {
-      this.toastService.show(error.message, { classname: 'bg-success text-light', delay: 4000 });
+      this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
     });
-      // const credential = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
-      // this.toastService.show('Successfully signed in', { classname: 'bg-success text-light', delay: 4000 });
-      // return this.updateUserData(credential.user);
   }
 
   public async googleSignin(): Promise<void> {

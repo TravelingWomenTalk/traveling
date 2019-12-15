@@ -64,7 +64,6 @@ export class ReviewListComponent implements OnInit {
     this.authService.user$.subscribe((user) => {
       if (user.uid === review.user.uid) {
         this.reviewService.delete(review.id);
-        this.toastService.show('Review deleted', { classname: 'bg-success text-light', delay: 4000 });
       } else {
         this.toastService.show('You cannot delete a review that isn\'t yours.', { classname: 'bg-danger text-light', delay: 4000 });
       }
