@@ -3,7 +3,8 @@ import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+import { Review } from 'src/app/shared/models/review.model';
 
 @Component({
   selector: 'app-review-detail',
@@ -28,13 +29,12 @@ export class ReviewDetailComponent implements OnInit {
 
   public getReview(): void {
     this.route.params.pipe(
-      map((params: Params) => {
+      switchMap((params: Params) => {
         this.id = params['id'];
-        this.reviewService.get(this.id).valueChanges();
+        return this.reviewService.get(this.id).valueChanges();
       })
-    ).subscribe((document: any) => {
-        this.review = document;
-        this.review.travelDate = document.travelDate.toDate();
+    ).subscribe((review: Review) => {
+        this.review = review;
         this.titleService.setTitle('Travelng Women Talk | ' + this.review.location);
     });
   }

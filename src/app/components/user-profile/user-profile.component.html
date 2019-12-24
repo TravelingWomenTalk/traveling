@@ -13,8 +13,7 @@
 
 <div *ngFor="let review of reviews">
   <div class="card">
-    <!--  (click)='navigateDetails(review)' -->
-    <div class="card-body">
+    <div class="card-body" (click)="navigateDetails(review)">
       <h5 class="card-title">{{review.location}}</h5>
       <p class="card-text">
         <small class="text-muted">
