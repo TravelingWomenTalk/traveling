@@ -6,6 +6,8 @@ import { switchMap } from 'rxjs/operators';
 import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { Review } from 'src/app/shared/models/review.model';
 import { User } from 'src/app/shared/models/user.model';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormGroup, AbstractControl, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,10 +18,12 @@ export class UserProfileComponent implements OnInit {
   public id: string;
   public user: User;
   public reviews: Review[];
+  public userForm: FormGroup;
 
   constructor(
     public authService: AuthService,
     private reviewService: ReviewService,
+    private modalService: NgbModal,
     private route: ActivatedRoute,
     private titleService: Title) { }
 
@@ -41,6 +45,57 @@ export class UserProfileComponent implements OnInit {
     ).subscribe((reviews: Review[]) => {
         this.reviews = reviews;
     });
+  }
+
+  public editUser(content: NgbModalRef<any>): void {
+    this.buildForm();
+    this.modalService.open(content, {ariaLabelledBy: 'delete-confirm-modal', keyboard: true }).result.then((result) => {
+      if (result === 'save') {
+      }
+    }, () => {
+      return;
+    });
+  }
+
+  public buildForm(): void {
+    this.userForm = new FormGroup({
+      email: new FormControl(this.user.email || ''),
+      displayName: new FormControl(this.user.displayName, [Validators.required]),
+      gender: new FormControl(this.user.gender || '', [Validators.required]),
+      age: new FormControl(this.user.age || '', [Validators.required]),
+      status: new FormControl(this.user.status || '', [Validators.required]),
+      accomplice: new FormControl(this.user.accomplice || '', [Validators.required]),
+      interest: new FormControl(this.user.interest || '', [Validators.required]),
+      destination: new FormControl(this.user.destination || '', [Validators.required])
+    });
+  }
+
+  public get displayNameControl(): AbstractControl {
+    return this.userForm.get('displayName');
+  }
+
+  public get genderControl(): AbstractControl {
+    return this.userForm.get('gender');
+  }
+
+  public get ageControl(): AbstractControl {
+    return this.userForm.get('age');
+  }
+
+  public get statusControl(): AbstractControl {
+    return this.userForm.get('status');
+  }
+
+  public get accompliceControl(): AbstractControl {
+    return this.userForm.get('accomplice');
+  }
+
+  public get interestControl(): AbstractControl {
+    return this.userForm.get('interest');
+  }
+
+  public get destinationControl(): AbstractControl {
+    return this.userForm.get('destination');
   }
 
 }

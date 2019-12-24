@@ -48,7 +48,7 @@ export class AuthService {
     .then((credential) => {
       this.toastService.show('Successfully signed up. Welcome!', { classname: 'bg-success text-light', delay: 4000 });
       user.uid = credential.user.uid;
-      this.updateUserData(user);
+      this.createUser(user);
       this.router.navigate(['/reviews']);
     })
     .catch(error => {
@@ -59,7 +59,7 @@ export class AuthService {
   public async emailLogin(email: string, password: string): Promise<void> {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
     .then((credential) => {
-      this.updateUserData(credential.user);
+      this.updateUser(credential.user);
       this.toastService.show('Signed in as ' + email, { classname: 'bg-success text-light', delay: 4000 });
       this.router.navigate(['/reviews']);
     })
@@ -72,7 +72,7 @@ export class AuthService {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider)
       .then((cred) => {
-        this.updateUserData(cred.user);
+        this.updateUser(cred.user);
         this.toastService.show('Successfully signed in with Google', { classname: 'bg-success text-light', delay: 4000 });
         this.router.navigate(['/reviews']);
       })
@@ -87,7 +87,7 @@ export class AuthService {
     const provider = new auth.FacebookAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider)
       .then((cred) => {
-        this.updateUserData(cred.user);
+        this.updateUser(cred.user);
         this.toastService.show('Successfully signed in with Facebook', { classname: 'bg-success text-light', delay: 4000 });
         this.router.navigate(['/reviews']);
       })
@@ -102,7 +102,26 @@ export class AuthService {
     return this.afs.doc<User>('/users/' + id);
   }
 
-  private updateUserData(user: User): Promise<void> {
+  public createUser(user: User): Promise<void> {
+    const data: User = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName || null,
+      createdDate: new Date(),
+      photoURL: user.photoURL || null,
+      isAdmin: false,
+      gender: user.gender || null,
+      age: user.age || null,
+      status: user.status || null,
+      accomplice: user.accomplice || null,
+      interest: user.interest || null,
+      destination: user.destination || null
+    };
+
+    return this.afs.doc(`users/${user.uid}`).set(data, { merge: true });
+  }
+
+  public updateUser(user: User): Promise<void> {
     const data: User = {
       uid: user.uid,
       email: user.email,
