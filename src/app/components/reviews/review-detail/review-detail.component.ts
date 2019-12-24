@@ -3,7 +3,7 @@ import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { Review } from 'src/app/shared/models/review.model';
 
 @Component({
