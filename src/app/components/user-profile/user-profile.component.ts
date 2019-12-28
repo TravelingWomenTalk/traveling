@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Params } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { switchMap, map } from 'rxjs/operators';
 import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { Review } from 'src/app/shared/models/review.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -25,11 +25,16 @@ export class UserProfileComponent implements OnInit {
     private reviewService: ReviewService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
+    private router: Router,
     private titleService: Title) { }
 
   public ngOnInit(): void {
     this.titleService.setTitle('Travelng Women Talk | Profile');
     this.getUserData();
+  }
+
+  public navigateDetails(review: Review): void {
+    this.router.navigate(['review', review.id]);
   }
 
   public getUserData(): void {
@@ -40,7 +45,13 @@ export class UserProfileComponent implements OnInit {
       }),
       switchMap((user: User) => {
         this.user = user;
-        return this.reviewService.getByUserId(user.uid).valueChanges();
+        return this.reviewService.getByUserId(user.uid).snapshotChanges().pipe(
+          map(actions => actions.map(a => {
+            const data = a.payload.doc.data() as Review;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          }))
+        );
       })
     ).subscribe((reviews: Review[]) => {
         this.reviews = reviews;
@@ -51,6 +62,8 @@ export class UserProfileComponent implements OnInit {
     this.buildForm();
     this.modalService.open(content, {ariaLabelledBy: 'delete-confirm-modal', keyboard: true }).result.then((result) => {
       if (result === 'save') {
+        this.authService.update(this.id, this.userForm.getRawValue());
+        this.authService.updateReviewUserData(this.reviews);
       }
     }, () => {
       return;

@@ -4,10 +4,10 @@ import { User } from '../models/user.model';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ToastService } from './toast.service';
-
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { Review } from '../models/review.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -45,34 +45,38 @@ export class AuthService {
 
   public async emailCreate(email: string, password: string, user: User): Promise<void> {
     return await this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-    .then((credential) => {
-      this.toastService.show('Successfully signed up. Welcome!', { classname: 'bg-success text-light', delay: 4000 });
-      user.uid = credential.user.uid;
-      this.createUser(user);
-      this.router.navigate(['/reviews']);
-    })
-    .catch(error => {
-      this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
-    });
+      .then((cred) => {
+        this.toastService.show('Successfully signed up. Welcome!', { classname: 'bg-success text-light', delay: 4000 });
+        user.uid = cred.user.uid;
+        this.createUserOnLogIn(user);
+        this.router.navigate(['/reviews']);
+      })
+      .catch(error => {
+        this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
+      });
   }
 
   public async emailLogin(email: string, password: string): Promise<void> {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-    .then((credential) => {
-      this.updateUser(credential.user);
-      this.toastService.show('Signed in as ' + email, { classname: 'bg-success text-light', delay: 4000 });
-      this.router.navigate(['/reviews']);
-    })
-    .catch(error => {
-      this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
-    });
+      .then((cred) => {
+        this.updateUserOnLogIn(cred.user);
+        this.toastService.show('Signed in as ' + email, { classname: 'bg-success text-light', delay: 4000 });
+        this.router.navigate(['/reviews']);
+      })
+      .catch(error => {
+        this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
+      });
   }
 
-  public async googleSignin(): Promise<void> {
+  public async googleSignin(isCreate: boolean): Promise<void> {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider)
       .then((cred) => {
-        this.updateUser(cred.user);
+        if (cred.additionalUserInfo.isNewUser) {
+          this.createUserOnLogIn(cred.user);
+        } else {
+          this.updateUserOnLogIn(cred.user);
+        }
         this.toastService.show('Successfully signed in with Google', { classname: 'bg-success text-light', delay: 4000 });
         this.router.navigate(['/reviews']);
       })
@@ -87,7 +91,11 @@ export class AuthService {
     const provider = new auth.FacebookAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider)
       .then((cred) => {
-        this.updateUser(cred.user);
+        if (cred.additionalUserInfo.isNewUser) {
+          this.createUserOnLogIn(cred.user);
+        } else {
+          this.updateUserOnLogIn(cred.user);
+        }
         this.toastService.show('Successfully signed in with Facebook', { classname: 'bg-success text-light', delay: 4000 });
         this.router.navigate(['/reviews']);
       })
@@ -102,12 +110,13 @@ export class AuthService {
     return this.afs.doc<User>('/users/' + id);
   }
 
-  public createUser(user: User): Promise<void> {
-    const data: User = {
+  public createUserOnLogIn(user: User): Promise<void> {
+    const userData: User = {
       uid: user.uid,
+      lastLoggedInDate: new Date(),
+      createdDate: new Date(),
       email: user.email,
       displayName: user.displayName || null,
-      createdDate: new Date(),
       photoURL: user.photoURL || null,
       isAdmin: false,
       gender: user.gender || null,
@@ -118,26 +127,13 @@ export class AuthService {
       destination: user.destination || null
     };
 
-    return this.afs.doc(`users/${user.uid}`).set(data, { merge: true });
+    return this.afs.doc(`users/${userData.uid}`).set(userData, { merge: true });
   }
 
-  public updateUser(user: User): Promise<void> {
-    const data: User = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName || null,
-      createdDate: new Date(),
-      photoURL: user.photoURL || null,
-      isAdmin: false,
-      gender: user.gender || null,
-      age: user.age || null,
-      status: user.status || null,
-      accomplice: user.accomplice || null,
-      interest: user.interest || null,
-      destination: user.destination || null
-    };
-
-    return this.afs.doc(`users/${user.uid}`).set(data, { merge: true });
+  public updateUserOnLogIn(user: User): Promise<void> {
+    return this.afs.doc(`users/${user.uid}`).update({
+      lastLoggedInDate: new Date()
+    });
   }
 
   public async signOut(): Promise<void> {
@@ -146,6 +142,27 @@ export class AuthService {
     this.toastService.show('Signed out', { classname: 'bg-success text-light', delay: 2000 });
 
     this.router.navigate(['/reviews']);
+  }
+
+  public update(id: string, userData: User): Promise<void> {
+    return this.afs.doc<User>(`users/${id}`).update(userData)
+      .then(() => {
+        this.toastService.show('Your user profile has been updated', { classname: 'bg-success text-light', delay: 4000 });
+      })
+      .catch((err) => {
+        this.toastService.show('Something went wrong', { classname: 'bg-danger text-light', delay: 4000 });
+        console.log(err);
+      });
+  }
+
+  public updateReviewUserData(reviews: Review[]): void {
+    this.user$.subscribe((user: User) => {
+      reviews.forEach((review: Review) => {
+        this.afs.doc<Review>(`reviews/${review.id}`).update({
+          user
+        });
+      });
+    });
   }
 
 }
