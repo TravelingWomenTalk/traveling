@@ -4,6 +4,14 @@ export interface User {
   photoURL?: string;
   displayName?: string;
   createdDate?: Date;
+  lastLoggedInDate?: Date;
   isAdmin?: boolean;
   gender?: string;
+
+  // private
+  age?: number;
+  status?: string;
+  accomplice?: string;
+  interest?: string;
+  destination?: string;
 }

@@ -18,19 +18,126 @@
           Password must be at least {{passwordControl?.errors?.minlength?.requiredLength}} characters long.
         </small>
       </div>
-      <button type="button" class="btn btn-primary" [disabled]="passwordControl?.errors" (click)="create()">
-        <i class="fas fa-envelope-open"></i>&nbsp;&nbsp; Sign up with your email
+
+      <div class="form-group">
+        <label for="Password2">Re-enter password*</label>
+        <input type="password" class="form-control"
+          [ngClass]="{'is-invalid': password2Control?.invalid, 'is-valid': !password2Control?.invalid}"
+          aria-describedby="password2Help" placeholder="Re-enter password" formControlName="password2" required>
+        <small *ngIf="password2Control?.errors?.minlength" id="password2Help" class="form-text text-muted">
+          Password must be at least {{passwordControl?.errors?.minlength?.requiredLength}} characters long.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="displayName">Display name*</label>
+        <input type="text" class="form-control"
+          [ngClass]="{'is-invalid': displayNameControl?.invalid, 'is-valid': !displayNameControl?.invalid}"
+          aria-describedby="displayNameHelp" placeholder="John Doe" formControlName="displayName" required>
+        <small *ngIf="displayNameControl?.errors?.minlength" id="displayNameHelp" class="form-text text-muted">
+          Display name is required.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Gender*</label>
+        <select class="custom-select" id="gender" formControlName="gender"
+          [ngClass]="{'is-invalid': genderControl?.invalid, 'is-valid': !genderControl?.invalid}" required>
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <hr>
+      <small class="form-text text-muted">
+        We'll never share the below information with anyone else.
+        We use this to personalize your experience on Traveling Women Talk.
+      </small>
+
+      <div class="form-group">
+        <label for="age">Year of birth*</label>
+        <select class="custom-select" id="age" formControlName="age"
+          [ngClass]="{'is-invalid': ageControl?.invalid, 'is-valid': !ageControl?.invalid}" required>
+          <option value="2010">2010s</option>
+          <option value="2000">2000s</option>
+          <option value="1990">1990s</option>
+          <option value="1980">1980s</option>
+          <option value="1970">1970s</option>
+          <option value="1960">1960s</option>
+          <option value="1950">1950s</option>
+          <option value="1940">1940s</option>
+          <option value="1930">1930s</option>
+          <option value="1920">1920s</option>
+          <option value="1910">1910s</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status*</label>
+        <select class="custom-select" id="status" formControlName="status"
+          [ngClass]="{'is-invalid': statusControl?.invalid, 'is-valid': !statusControl?.invalid}" required>
+          <option value="single">Single</option>
+          <option value="married">Married</option>
+          <option value="widowed">Widowed</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="accomplice">Travel accomplice (pick best answer)*</label>
+        <select class="custom-select" id="accomplice" formControlName="accomplice"
+          [ngClass]="{'is-invalid': accompliceControl?.invalid, 'is-valid': !accompliceControl?.invalid}" required>
+          <option value="single">Single</option>
+          <option value="groups">Groups</option>
+          <option value="family">Family</option>
+          <option value="grandchildren">Grandchildren</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="interest">Travel interest (pick best answer)*</label>
+        <select class="custom-select" id="interest" formControlName="interest"
+          [ngClass]="{'is-invalid': interestControl?.invalid, 'is-valid': !interestControl?.invalid}" required>
+          <option value="ocean cruising">Ocean cruising</option>
+          <option value="river cruising">River cruising</option>
+          <option value="sailing">Sailing</option>
+          <option value="canoeing">Canoeing</option>
+          <option value="hiking">Hiking</option>
+          <option value="backpacking">Backpacking</option>
+          <option value="biking">Biking</option>
+          <option value="land travel">Land travel</option>
+          <option value="bus tours">Bus tours</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="destination">Travel destination (pick best answer)*</label>
+        <select class="custom-select" id="destination" formControlName="destination"
+          [ngClass]="{'is-invalid': destinationControl?.invalid, 'is-valid': !destinationControl?.invalid}" required>
+          <option value="europe">Europe</option>
+          <option value="asia">Asia</option>
+          <option value="caribbean">Caribbean</option>
+          <option value="africa">Africa</option>
+          <option value="australia">Australia</option>
+          <option value="canada">Canada</option>
+          <option value="us">US</option>
+          <option value="south america">South America</option>
+        </select>
+      </div>
+
+      <button type="button" class="btn btn-primary" [disabled]="!signupForm.valid" (click)="create()">
+        <i class="fas fa-envelope-open"></i>&nbsp;&nbsp; Join us!
       </button>
     </form>
   </div>
 </div>
 <div class="card col-md-6">
   <div class="card-body">
-    <button class="btn btn-success" (click)="authService.googleSignin()">
+    <button class="btn btn-primary" (click)="authService.googleSignin()">
       <i class="fab fa-google"></i>&nbsp;&nbsp; Sign up with Google
     </button>
     <br><br>
-    <button class="btn btn-success" (click)="authService.facebookSignin()">
+    <button class="btn btn-primary" (click)="authService.facebookSignin()">
       <i class="fab fa-facebook-f"></i>&nbsp;&nbsp; Sign up with Facebook
     </button>
   </div>

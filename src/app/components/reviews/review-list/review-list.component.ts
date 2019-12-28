@@ -7,6 +7,7 @@ import { Title } from '@angular/platform-browser';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Observable } from 'rxjs';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-list',
@@ -20,6 +21,7 @@ export class ReviewListComponent implements OnInit {
   constructor(
     public toastService: ToastService,
     private reviewService: ReviewService,
+    private modalService: NgbModal,
     private router: Router,
     private authService: AuthService,
     private titleService: Title) {
@@ -45,7 +47,7 @@ export class ReviewListComponent implements OnInit {
   }
 
   public shareReview(review: Review): void {
-    this.toastService.show('Shared review!', { classname: 'bg-success text-light', delay: 2000 });
+    this.toastService.show('Shared review!', { classname: 'bg-success text-light', delay: 4000 });
   }
 
   public editReview(review: Review): void {
@@ -53,7 +55,7 @@ export class ReviewListComponent implements OnInit {
       if (user.uid === review.user.uid) {
         this.router.navigate(['review', review.id, 'edit']);
       } else {
-        this.toastService.show('You cannot edit a review you did not write.', { classname: 'bg-danger text-light', delay: 2000 });
+        this.toastService.show('You cannot edit a review you did not write.', { classname: 'bg-danger text-light', delay: 4000 });
       }
     });
   }
@@ -62,10 +64,19 @@ export class ReviewListComponent implements OnInit {
     this.authService.user$.subscribe((user) => {
       if (user.uid === review.user.uid) {
         this.reviewService.delete(review.id);
-        this.toastService.show('Review deleted', { classname: 'bg-success text-light', delay: 2000 });
       } else {
-        this.toastService.show('You cannot delete a review that isn\'t yours.', { classname: 'bg-danger text-light', delay: 2000 });
+        this.toastService.show('You cannot delete a review that isn\'t yours.', { classname: 'bg-danger text-light', delay: 4000 });
       }
+    });
+  }
+
+  public confirmDelete(content: NgbModalRef<any>, review: Review): void {
+    this.modalService.open(content, {ariaLabelledBy: 'delete-confirm-modal', keyboard: true }).result.then((result) => {
+      if (result === 'delete') {
+        this.deleteReview(review);
+      }
+    }, () => {
+      return;
     });
   }
 }
