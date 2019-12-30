@@ -28,6 +28,7 @@ import { ReadMoreComponent } from './shared/components/read-more/read-more.compo
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { NgbModule, NgbDatepickerModule, NgbDateAdapter, NgbDateNativeAdapter, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { DateFormatPipe } from './shared/pipes/date-format.pipe';
+import { ReviewCardComponent } from './shared/components/review-card/review-card.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { DateFormatPipe } from './shared/pipes/date-format.pipe';
     RoutingComponents,
     ToastsComponent,
     ReadMoreComponent,
+    ReviewCardComponent,
     TimeAgoPipe,
     DateFormatPipe
   ],
