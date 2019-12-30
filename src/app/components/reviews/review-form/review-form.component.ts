@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { Review } from 'src/app/shared/models/review.model';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -6,7 +6,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Title } from '@angular/platform-browser';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-review-form',

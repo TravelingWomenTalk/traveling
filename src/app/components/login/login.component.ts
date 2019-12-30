@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  public login(email: string, password: string): void {
+  public login(): void {
     this.authService.emailLogin(this.loginForm.getRawValue().email, this.loginForm.getRawValue().password);
   }
 

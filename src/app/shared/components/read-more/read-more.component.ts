@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-read-more',
@@ -11,7 +11,7 @@ export class ReadMoreComponent implements OnInit, OnChanges {
     public isHidden: boolean = true;
     public isCollapsed: boolean = true;
 
-    constructor(private elementRef: ElementRef) { }
+    constructor() { }
 
     public ngOnInit(): void {
         this.determineView();

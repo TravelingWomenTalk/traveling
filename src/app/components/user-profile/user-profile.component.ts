@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { switchMap, map } from 'rxjs/operators';
 import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { Review } from 'src/app/shared/models/review.model';
@@ -25,16 +25,11 @@ export class UserProfileComponent implements OnInit {
     private reviewService: ReviewService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private router: Router,
     private titleService: Title) { }
 
   public ngOnInit(): void {
     this.titleService.setTitle('Travelng Women Talk | Profile');
     this.getUserData();
-  }
-
-  public navigateDetails(review: Review): void {
-    this.router.navigate(['review', review.id]);
   }
 
   public getUserData(): void {
