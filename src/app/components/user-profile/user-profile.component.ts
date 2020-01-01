@@ -40,6 +40,9 @@ export class UserProfileComponent implements OnInit {
       }),
       switchMap((user: User) => {
         this.user = user;
+        if (!user) {
+          return [];
+        }
         return this.reviewService.getByUserId(user.uid).snapshotChanges().pipe(
           map(actions => actions.map(a => {
             const data = a.payload.doc.data() as Review;
@@ -49,13 +52,13 @@ export class UserProfileComponent implements OnInit {
         );
       })
     ).subscribe((reviews: Review[]) => {
-        this.reviews = reviews;
+      this.reviews = reviews;
     });
   }
 
   public editUser(content: NgbModalRef<any>): void {
     this.buildForm();
-    this.modalService.open(content, {ariaLabelledBy: 'delete-confirm-modal', keyboard: true }).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'delete-confirm-modal', keyboard: true }).result.then((result) => {
       if (result === 'save') {
         this.authService.update(this.id, this.userForm.getRawValue());
         this.authService.updateReviewUserData(this.reviews);

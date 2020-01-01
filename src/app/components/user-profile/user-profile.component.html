@@ -17,6 +17,9 @@
   <button *ngIf="(authService.user$ | async)?.uid === user?.uid" (click)="editUser(editUserModal)"
     class="btn btn-success">Edit profile</button>
 </div>
+<div *ngIf="!user" class="jumbotron">
+  <p>The user you are trying to view does not exist or was deleted. :(</p>
+</div>
 
 <div *ngIf="reviews?.length === 0" class="card">
   <div class="card-body">
