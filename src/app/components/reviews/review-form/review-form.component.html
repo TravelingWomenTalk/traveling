@@ -32,9 +32,8 @@
         placeholder="Big Billy's Burger Joint, North Charleston, SC" formControlName="location" required>
     </div>
     <div class="form-group">
-      <label for="ratingInput">Rating</label>
-      <input type="number" class="form-control" id="ratingInput" placeholder="Rating out of 5" formControlName="rating"
-        required>
+      <label for="ratingInput">Rating</label> <br>
+      <ngb-rating class="star" id="ratingInput" formControlName="rating" [readonly]="false" max="5"></ngb-rating>
     </div>
     <div class="form-group">
       <label for="descriptionInput">Share your experiences at this place</label>

@@ -140,7 +140,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-success" (click)="modal.close('save')">Save</button>
+    <button type="button" class="btn btn-success" [disabled]="!userForm.valid" (click)="modal.close('save')">Save</button>
     <button type="button" class="btn btn-link" (click)="modal.close('cancel')">Cancel</button>
   </div>
 </ng-template>
