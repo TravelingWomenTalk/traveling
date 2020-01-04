@@ -26,7 +26,7 @@ import { ReadMoreComponent } from './shared/components/read-more/read-more.compo
 
 // User Interface
 import { TimeAgoPipe } from 'time-ago-pipe';
-import { NgbModule, NgbDatepickerModule, NgbDateAdapter, NgbDateNativeAdapter, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDatepickerModule, NgbDateAdapter, NgbDateNativeAdapter, NgbModalModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 import { ReviewCardComponent } from './shared/components/review-card/review-card.component';
 
@@ -53,7 +53,8 @@ import { ReviewCardComponent } from './shared/components/review-card/review-card
     BrowserAnimationsModule,
     NgbModule,
     NgbDatepickerModule,
-    NgbModalModule
+    NgbModalModule,
+    NgbRatingModule
   ],
   providers: [
     {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter},
