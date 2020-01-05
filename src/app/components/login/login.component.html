@@ -4,18 +4,19 @@
       <div class="form-group">
         <label for="Email">Email*</label>
         <input type="email" class="form-control" aria-describedby="emailHelp"
-        [ngClass]="{'is-invalid': emailControl?.invalid, 'is-valid': !emailControl?.invalid }"
-        placeholder="Enter email" formControlName="email" required>
+          [ngClass]="{'is-invalid': emailControl?.invalid, 'is-valid': !emailControl?.invalid }"
+          placeholder="Enter email" formControlName="email" required>
       </div>
       <div class="form-group">
         <label for="Password">Password*</label>
         <input type="password" class="form-control"
-        [ngClass]="{'is-invalid': passwordControl?.invalid, 'is-valid': !passwordControl?.invalid}"
-        placeholder="Password" formControlName="password" required>
+          [ngClass]="{'is-invalid': passwordControl?.invalid, 'is-valid': !passwordControl?.invalid}"
+          placeholder="Password" formControlName="password" required>
       </div>
       <button type="button" class="btn btn-primary" [disabled]="passwordControl?.errors" (click)="login()">
         <i class="fas fa-envelope-open"></i>&nbsp;&nbsp; Log in with your email
       </button>
+      <br><br> <a [routerLink]="" (click)="resetPassword(resetEmailModal)">Reset password >></a>
     </form>
   </div>
 </div>
@@ -34,3 +35,24 @@
 <br>
 <div>New to Traveling Women Talk? <a routerLink="/signup">Sign up now <i class="fa fa-sm fa-angle-double-right"
       aria-hidden="true"></i></a></div>
+
+<ng-template #resetEmailModal let-modal>
+  <div class="modal-body">
+    <form [formGroup]="resetForm">
+      <div class="form-group">
+        <label for="email">Email*</label>
+        <input type="text" class="form-control"
+          [ngClass]="{'is-invalid': passwordResetControl?.invalid, 'is-valid': !passwordResetControl?.invalid}"
+          aria-describedby="emailHelp" placeholder="jane.doe@gmail.com" formControlName="email" required>
+        <small *ngIf="passwordResetControl?.errors?.minlength" id="emailHelp" class="form-text text-muted">
+          Email is required.
+        </small>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" [disabled]="!resetForm.valid"
+      (click)="modal.close('save')">Reset</button>
+    <button type="button" class="btn btn-link" (click)="modal.close('cancel')">Cancel</button>
+  </div>
+</ng-template>

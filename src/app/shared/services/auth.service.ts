@@ -68,6 +68,16 @@ export class AuthService {
       });
   }
 
+  public async resetPassword(email: string): Promise<void> {
+    return this.afAuth.auth.sendPasswordResetEmail(email)
+      .then(() => {
+        this.toastService.show('Email sent to ' + email, { classname: 'bg-success text-light', delay: 4000 });
+      })
+      .catch((error) => {
+        this.toastService.show(error + '\n\nSomething went wrong.', { classname: 'bg-danger text-light', delay: 4000 });
+      })
+  }
+
   public async googleSignin(): Promise<void> {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider)
