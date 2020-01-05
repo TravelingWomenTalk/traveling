@@ -75,7 +75,7 @@ export class AuthService {
       })
       .catch((error) => {
         this.toastService.show(error + '\n\nSomething went wrong.', { classname: 'bg-danger text-light', delay: 4000 });
-      })
+      });
   }
 
   public async googleSignin(): Promise<void> {
