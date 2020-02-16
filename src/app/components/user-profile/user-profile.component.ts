@@ -6,7 +6,7 @@ import { switchMap, map } from 'rxjs/operators';
 import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { Review } from 'src/app/shared/models/review.model';
 import { User } from 'src/app/shared/models/user.model';
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, AbstractControl, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -56,7 +56,7 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  public editUser(content: NgbModalRef<any>): void {
+  public editUser(content: any): void {
     this.buildForm();
     this.modalService.open(content, { ariaLabelledBy: 'delete-confirm-modal', keyboard: true }).result.then((result) => {
       if (result === 'save') {

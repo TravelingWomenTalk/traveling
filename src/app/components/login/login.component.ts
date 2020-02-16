@@ -3,7 +3,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  public resetPassword(content: NgbModalRef<any>): void {
+  public resetPassword(content: any): void {
     this.buildResetForm();
     this.modalService.open(content, { ariaLabelledBy: 'reset-password-modal', keyboard: true }).result.then((result) => {
       if (result === 'save') {
