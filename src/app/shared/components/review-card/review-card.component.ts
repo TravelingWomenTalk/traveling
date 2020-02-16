@@ -4,7 +4,7 @@ import { Review } from 'src/app/shared/models/review.model';
 import { Router } from '@angular/router';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-review-card',
@@ -54,7 +54,7 @@ export class ReviewCardComponent {
     });
   }
 
-  public confirmDelete(content: NgbModalRef<any>, review: Review): void {
+  public confirmDelete(content: any, review: Review): void {
     this.modalService.open(content, {ariaLabelledBy: 'delete-confirm-modal', keyboard: true }).result.then((result) => {
       if (result === 'delete') {
         this.deleteReview(review);
