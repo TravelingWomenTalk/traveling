@@ -23,7 +23,8 @@ export class ReviewFormComponent implements OnInit {
     placeId: undefined,
     location: undefined,
     rating: undefined,
-    description: undefined
+    description: undefined,
+    searchText: undefined
   };
   public isEdit: boolean = false;
   public title: string = '';
@@ -58,10 +59,10 @@ export class ReviewFormComponent implements OnInit {
         return this.reviewService.get(this.id).valueChanges();
       })
     ).subscribe((document: any) => {
-        this.review = document;
-        this.review.travelDate = document.travelDate.toDate();
+      this.review = document;
+      this.review.travelDate = document.travelDate.toDate();
 
-        this.buildForm();
+      this.buildForm();
     });
   }
 
@@ -76,6 +77,7 @@ export class ReviewFormComponent implements OnInit {
 
   public save(): void {
     this.review = this.reviewForm.getRawValue();
+    this.review.searchText = this.review.location.toLowerCase() + ' ';
 
     if (this.isEdit) {
       this.review.lastEdited = new Date();

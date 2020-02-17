@@ -12,6 +12,7 @@ import { Title } from '@angular/platform-browser';
 export class ReviewListComponent implements OnInit {
 
   public reviews: Review[];
+  public searchValue: string = "";
 
   constructor(
     private reviewService: ReviewService,
@@ -33,5 +34,22 @@ export class ReviewListComponent implements OnInit {
     ).subscribe((reviews: Review[]) => {
       this.reviews = reviews;
     });
+  }
+
+  public search(): void {
+    if (this.searchValue.length === 0) {
+      this.getAllReviews();
+      return;
+    }
+
+    this.reviewService.search(this.searchValue).snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Review;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
+    ).subscribe((reviews: Review[]) => {
+      this.reviews = reviews;
+    });;
   }
 }
