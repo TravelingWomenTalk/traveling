@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { Review } from 'src/app/shared/models/review.model';
 
 @Component({
@@ -28,11 +28,17 @@ export class ReviewDetailComponent implements OnInit {
     this.route.params.pipe(
       switchMap((params: Params) => {
         this.id = params['id'];
-        return this.reviewService.get(this.id).valueChanges();
+        return this.reviewService.get(this.id).snapshotChanges().pipe(
+          map(action => {
+            const data = action.payload.data() as Review;
+            const id = action.payload.id;
+            return { id, ...data };
+          })
+        )
       })
     ).subscribe((review: Review) => {
-        this.review = review;
-        this.titleService.setTitle('Travelng Women Talk | ' + this.review.location);
+      this.review = review;
+      this.titleService.setTitle('Travelng Women Talk | ' + this.review.location);
     });
   }
 }

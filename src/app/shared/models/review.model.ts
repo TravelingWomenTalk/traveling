@@ -10,4 +10,5 @@ export interface Review {
     placeId: string;
     rating: number;
     description: string;
+    searchText: string;
 }
