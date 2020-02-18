@@ -29,6 +29,7 @@ import { TimeAgoPipe } from 'time-ago-pipe';
 import { NgbModule, NgbDatepickerModule, NgbDateAdapter, NgbDateNativeAdapter, NgbModalModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 import { ReviewCardComponent } from './shared/components/review-card/review-card.component';
+import { ScrollableDirective } from './shared/directives/scrollable.directive';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ReviewCardComponent } from './shared/components/review-card/review-card
     ReadMoreComponent,
     ReviewCardComponent,
     TimeAgoPipe,
-    DateFormatPipe
+    DateFormatPipe,
+    ScrollableDirective
   ],
   imports: [
     BrowserModule,

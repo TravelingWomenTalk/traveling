@@ -3,11 +3,16 @@ import { ReviewService } from 'src/app/shared/services/review.sevice';
 import { map } from 'rxjs/operators';
 import { Review } from 'src/app/shared/models/review.model';
 import { Title } from '@angular/platform-browser';
+//import { Observable } from 'rxjs/Observable';
+//import { PaginationService } from 'src/app/shared/services/pagination.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './review-list.component.html',
-  styleUrls: ['./review-list.component.scss']
+  styleUrls: ['./review-list.component.scss'],
+  host: {
+    //'(window:scroll)' : 'onScroll($event)'
+  }
 })
 export class ReviewListComponent implements OnInit {
 
@@ -21,7 +26,7 @@ export class ReviewListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.getAllReviews();
+    //this.getAllReviews();
   }
 
   public getAllReviews(): void {
@@ -51,5 +56,10 @@ export class ReviewListComponent implements OnInit {
     ).subscribe((reviews: Review[]) => {
       this.reviews = reviews;
     });;
+  }
+
+  scrollHandler(e) {
+    console.log(e)
+    // should log top or bottom
   }
 }

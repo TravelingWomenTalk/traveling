@@ -1,4 +1,4 @@
-<div class="container pb-4">
+<!-- <div class="container pb-4">
   <div class="row justify-content-md-center">
     <div class="col col-lg-6">
       <input type="text" (keyup)="search()" [(ngModel)]="searchValue" class="form-control form-control-lg"
@@ -8,4 +8,10 @@
 </div>
 <div *ngFor="let review of reviews">
   <app-review-card *ngIf="review" [review]="review" [readMore]="true"></app-review-card>
+</div> -->
+<div class="content" scrollable (scrollPosition)="scrollHandler($event)">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+  <div style="height:2000px"></div>
 </div>
