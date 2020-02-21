@@ -31,6 +31,8 @@ export class ReviewCardComponent {
   }
 
   public shareReview(review: Review): void {
+    const url: string = `https://www.facebook.com/sharer/sharer.php?u=https://travelingwomentalk.com/review/${review.id}/`;
+    window.open(url, '_blank');
     this.toastService.show(`Shared ${review.location} review!`, { classname: 'bg-success text-light', delay: 4000 });
   }
 
