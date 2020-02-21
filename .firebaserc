@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "travelingwomen-test"
+    "default": "traveling-women-talk",
+    "prod": "traveling-women-talk"
   }
 }
